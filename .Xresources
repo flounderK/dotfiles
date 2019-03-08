@@ -1,0 +1,26 @@
+
+! == urxvt == 
+URxvt.font:			xft:monospace:size=12
+U$xvt.letterSpace:	0
+
+
+! == Colors ==
+*background:	#132738
+*foreground:	#FFFFFF
+*cursorColor:	#FFFFFF
+*color0:		#000000
+*color1:		#FF0000
+*color2:		#38DE21
+*color3:		#FFE50A
+*color4:		#1460D2 
+*color5:		#FF005D
+*color6:		#00BBBB
+*color7:		#BBBBBB
+*color8:		#555555
+*color9:		#F40E17
+*color10:		#3BD01D
+*color11:		#EDC809
+*color12:		#5555FF
+*color13:		#FF55FF
+*color14:		#6AE3FA
+*color15:		#FFFFFF
