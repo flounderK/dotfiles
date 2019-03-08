@@ -135,6 +135,7 @@ alias grepbin='ls /bin/ |grep'
 alias ez='vim ~/.zshrc'
 alias pwsh='env TERM=xterm pwsh'
 alias rake='noglob rake'
+alias meow='cat'
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
