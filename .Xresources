@@ -1,8 +1,12 @@
 
 ! == urxvt == 
 URxvt.font:			xft:monospace:size=12
-U$xvt.letterSpace:	0
-
+URxvt.letterSpace:	0
+URxvt.transparent:  true
+URxvt.shading:		30
+URxvt.depth:		32
+URxvt.background:	rgba:1313/2727/3838/c0c0
+URxvt.imLocale:		en_US.UTF-8
 
 ! == Colors ==
 *background:	#132738
