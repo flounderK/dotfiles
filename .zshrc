@@ -72,8 +72,8 @@ plugins=(
   vundle
   battery
   command-not-found
-  zsh-syntax-highlighting
-  zsh-autosuggestions
+#  zsh-syntax-highlighting
+#  zsh-autosuggestions
   nmap
   python
   rsync
@@ -98,12 +98,10 @@ EDITOR=/usr/bin/vim
 # else
 #   export EDITOR='mvim'
 # fi
-
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
-
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -136,8 +134,9 @@ alias ez='vim ~/.zshrc'
 alias pwsh='env TERM=xterm pwsh'
 alias rake='noglob rake'
 alias meow='lolcat'
+alias cowtune='fortune -e | cowthink -n'
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
+cowtune
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"

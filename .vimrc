@@ -58,7 +58,7 @@ let g:ycm_max_num_identifier_candidates = 0
 "let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
 let g:ycm_key_list_select_completion = ['<tab>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<s-tab>', '<Up>']
-
+let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 map <F3> :YcmCompleter GoTo<CR>
 "map <leader>g  : YcmCompleter GoToDefinitionElseDeclaration<CR>
 let mapleader = ","
@@ -118,10 +118,9 @@ au Filetype cpp
 	\ set encoding=utf-8 |
 	\ set colorcolumn=110 |
 	\ let &path.="src/include,/usr/include/AL," |
-	\ "='-I'.substitute(&path, ',', '\n-I', 'g')<cr>p 
-"	\ set makeprg=make\ -C\ ../build\ -j9 |
-"	\ nnoremap <F4> :make!<cr> |
-"	\ nnoremap <F5> :exec '!' shellescape(@%,1)<CR>
+	\ set makeprg=make\ -C\ ../build\ -j9 |
+	\ nnoremap <F4> :make!<cr> |
+	\ nnoremap <F5> :exec '!' shellescape(@%,1)<CR>
 au Filetype c
 	\ set tabstop=4 |
 	\ set softtabstop=4 | 
@@ -131,9 +130,11 @@ au Filetype c
 	\ set nu |
 	\ set encoding=utf-8 |
 	\ set colorcolumn=110 |
-	\ let &path.="src/include,/usr/include/AL," |
-	\ "='-I'.substitute(&path, ',', '\n-I', 'g')<cr>p 
-
+	\ let &path.="src/include,/usr/include/AL,/lib/modules/5.1.5-arch1-2-ARCH/build/include" |
+	\ set makeprg=make\ -C\ ../build\ -j9 |
+	\ let g:ycm_python_binary_path = 'python' |
+	\ nnoremap <F4> :make!<cr> |
+	\ nnoremap <F5> :exec '!' shellescape(@%,1)<CR>
 
 "augroup project
 "	autocmd!
