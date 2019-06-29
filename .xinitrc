@@ -38,3 +38,4 @@ fi
 #xterm -geometry 80x20+494-0 &
 #exec xterm -geometry 80x66+0+0 -name login
 #exec --no-startup-id /usr/bin/compton --config ~/.config/compton.conf
+exec --no-startup-id /usr/bin/autocutsel -s PRIMARY -fork 

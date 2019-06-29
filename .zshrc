@@ -135,6 +135,7 @@ alias pwsh='env TERM=xterm pwsh'
 alias rake='noglob rake'
 alias meow='lolcat'
 alias cowtune='fortune -e | cowthink -n'
+alias inet4='ifconfig -a | grep -P "inet[^6]"'
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 cowtune
