@@ -1,0 +1,8 @@
+[repo-location]
+~/path/to/my/dotfiles/repo
+
+[files-to-update]
+.config/termite/config
+.config/i3/config
+.zshrc
+.Xresources
