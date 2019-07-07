@@ -1,3 +1,9 @@
+scriptencoding utf-8
+set encoding=utf-8
+set enc=utf-8
+set fileencoding=utf-8
+set fileencodings=ucs-bom,uft8,prc
+
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/vundle

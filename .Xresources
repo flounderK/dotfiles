@@ -1,21 +1,21 @@
 
 ! == urxvt == 
 !URxvt.font:			xft:monospace:size=11
-URxvt.font:			xft:bitstream vera sans mono:size=11:antialias=true
+URxvt.font:			xft:bitstream vera sans mono:size=11:antialias=true, xft: Noto Emoji
 URxvt.boldFont:		xft:bitstream vera sans mono:bold:size=11:antialias=true
 URxvt.letterSpace:	-1
 URxvt.linespace:	1
 URxvt.transparent:  true
 URxvt.shading:		30
 URxvt.depth:		32
-URxvt.background:	rgba:1313/2727/3838/c0c0
+!URxvt.background:	rgba:1313/2727/3838/c0c0
 URxvt.iso14755:		false
 URxvt.iso14755_52:	false
 URxvt.perl-ext:		default,matcher
 
 
 ! == Colors ==
-URxvt*background:	#132738
+!URxvt*background:	#132738
 URxvt*foreground:	#FFFFFF
 URxvt*cursorColor:	#FFFFFF
 URxvt*color0:		#000000
@@ -38,13 +38,13 @@ URxvt*color15:		#FFFFFF
 
 
 URxvt.imLocale:			en_US.UTF-8
-URxvt.perl-ext-common:	default,clipboard,keyboard-select,selection-to-clipboard,pasta,matcher
+URxvt.perl-ext-common:	default,clipboard,keyboard-select,selection-to-clipboard,matcher
 URxvt.keysym.M-u:		perl:url-select:select_next
 URxvt.url-launcher:		/usr/bin/chromium
 URxvt.unlerlineURLs:	True
 URxvt.matcher.button:	1
 URxvt.keysym.M-Escape:	perl:keyboard-select:activate
-URxvt.keysym.Control-Shift-V:	perl:pasta:paste
+!URxvt.keysym.Control-Shift-V:	perl:pasta:paste
 
 
 ! == Colors ==
