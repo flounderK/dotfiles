@@ -11,23 +11,28 @@ def sanitize(commit):
     return commit
 
 
-def copytree(src, dst, symlinks=False, ignore=None):
-    for item in os.listdir(src):
-        source = os.path.join(src, item)
-        dest = os.path.join(dst, item)
-        if os.path.isdir(source):
-            shutil.copytree(source, dest, symlinks, ignore)
-        else:
-            shutil.copy(source, dest)
+def get_file_offsets(path):
+    file_paths = list()
+
+    for root, dirs, files in os.walk(path):
+        root_offset = root.replace(path, "")
+        file_paths.extend([os.path.join(root_offset, i) for i in files])
+    return file_paths
 
 
 def install_dotfiles():
-    dotfiles_repo_dir = os.path.split(__file__)[0]
+    dotfiles_repo_dir = os.path.abspath(os.path.dirname(__file__))
+    offsets = get_file_offsets(dotfiles_repo_dir)
     home = os.path.expanduser("~")
-    trees = os.listdir(dotfiles_repo_dir)
-    ignore_pattern = shutil.ignore_patterns(".idea*", ".git*", "my-dotfiles-settings")
-    for tree in trees:
-        copytree(os.path.join(dotfiles_repo_dir, tree), os.path.join(home, tree), ignore=ignore_pattern)
+    ignore_pattern = r'(\.(idea|git)/|my-dotfiles-settings)'
+    offsets = [i.string for i in [re.search(ignore_pattern, m) for m in offsets] if i is None]
+
+    for offset in offsets:
+        dest = os.path.join(home, offset)
+        dest_dir = os.path.dirname(dest)
+        if not os.path.exists(dest_dir):
+            os.makedirs(dest_dir, exist_ok=True)
+        shutil.copy(os.path.join(dotfiles_repo_dir, offset), dest)
 
 
 parser = argparse.ArgumentParser(description="This is a quick script to update dotfiles quickly. Settings are "
@@ -40,6 +45,11 @@ parser.add_argument("--files", help="Specific files that you would like to updat
 parser.add_argument("--commit", help="Commit message for git repo",
                     type=str)
 args = parser.parse_args()
+
+if args.install is True:
+    install_dotfiles()
+    print("Dotfiles installed")
+    exit(0)
 
 config_file_path = os.path.expanduser("~/.config/my-dotfiles-settings")
 # check for config file 
@@ -74,11 +84,6 @@ if args.list_repos is True:
         exit(1)
     for i in repo_locations:
         print(i)
-    exit(0)
-
-if args.install is True:
-    install_dotfiles()
-    print("Dotfiles installed")
     exit(0)
 
 
