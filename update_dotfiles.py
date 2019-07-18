@@ -4,16 +4,38 @@ import configparser
 import argparse
 import re
 
+
 def sanitize(commit):
     """This should be replaced with something better"""
-    commit = re.sub("(`|\"|;|\$|<|>|&|\||#|\*|!!)", "", commit)
+    commit = re.sub(r"(`|\"|;|\$|<|>|&|\||#|\*|!!)", "", commit)
     return commit
+
+
+def copytree(src, dst, symlinks=False, ignore=None):
+    for item in os.listdir(src):
+        source = os.path.join(src, item)
+        dest = os.path.join(dst, item)
+        if os.path.isdir(source):
+            shutil.copytree(source, dest, symlinks, ignore)
+        else:
+            shutil.copy(source, dest)
+
+
+def install_dotfiles():
+    dotfiles_repo_dir = os.path.split(__file__)[0]
+    home = os.path.expanduser("~")
+    trees = os.listdir(dotfiles_repo_dir)
+    ignore_pattern = shutil.ignore_patterns(".idea*", ".git*", "my-dotfiles-settings")
+    for tree in trees:
+        copytree(os.path.join(dotfiles_repo_dir, tree), os.path.join(home, tree), ignore=ignore_pattern)
+
 
 parser = argparse.ArgumentParser(description="This is a quick script to update dotfiles quickly. Settings are "
                                              "located in ~/.config/my-dotfiles-settings")
 parser.add_argument("--list-files", help="Lists files that will be updated", action="store_true", default=False)
 parser.add_argument("--list-repos", help="List the repo locations that will be updated",
                     action="store_true", default=False)
+parser.add_argument("--install", help="Install files to current user's config", default=False, action="store_true")
 parser.add_argument("--files", help="Specific files that you would like to update", nargs="+")
 parser.add_argument("--commit", help="Commit message for git repo",
                     type=str)
@@ -53,6 +75,12 @@ if args.list_repos is True:
     for i in repo_locations:
         print(i)
     exit(0)
+
+if args.install is True:
+    install_dotfiles()
+    print("Dotfiles installed")
+    exit(0)
+
 
 original_dir = os.getcwd()
 for repo in repo_locations:
