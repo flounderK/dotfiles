@@ -4,6 +4,13 @@ import configparser
 import argparse
 import re
 
+global verbose
+
+
+def verbose_print(*args, **kwargs):
+    if verbose is True:
+        print(*args, **kwargs)
+
 
 def sanitize(commit):
     """This should be replaced with something better"""
@@ -16,6 +23,8 @@ def get_file_offsets(path):
 
     for root, dirs, files in os.walk(path):
         root_offset = root.replace(path, "")
+        if len(root_offset) > 0 and  root_offset[0] == "/":
+            root_offset = root_offset[1:]
         file_paths.extend([os.path.join(root_offset, i) for i in files])
     return file_paths
 
@@ -24,15 +33,22 @@ def install_dotfiles():
     dotfiles_repo_dir = os.path.abspath(os.path.dirname(__file__))
     offsets = get_file_offsets(dotfiles_repo_dir)
     home = os.path.expanduser("~")
-    ignore_pattern = r'(\.(idea|git)/|my-dotfiles-settings)'
-    offsets = [i.string for i in [re.search(ignore_pattern, m) for m in offsets] if i is None]
+    ignore_patterns = [r'\.idea', r'\.git/', r'my-dotfiles-settings', r'\.gitignore']
+    for pat in ignore_patterns:
+        offsets = [s for s, i in [(m, re.search(pat, m)) for m in offsets] if i is None]
 
     for offset in offsets:
+        verbose_print(f"home: {home}")
+        verbose_print(f"offset: {offset}")
         dest = os.path.join(home, offset)
+        verbose_print(f"dest: {dest}")
         dest_dir = os.path.dirname(dest)
+        verbose_print(f"dest_dir: {dest_dir}")
         if not os.path.exists(dest_dir):
+            verbose_print(f"Making makedirs: {dest_dir}")
             os.makedirs(dest_dir, exist_ok=True)
         shutil.copy(os.path.join(dotfiles_repo_dir, offset), dest)
+        verbose_print("source: " + os.path.join(dotfiles_repo_dir, offset))
 
 
 parser = argparse.ArgumentParser(description="This is a quick script to update dotfiles quickly. Settings are "
@@ -44,7 +60,10 @@ parser.add_argument("--install", help="Install files to current user's config", 
 parser.add_argument("--files", help="Specific files that you would like to update", nargs="+")
 parser.add_argument("--commit", help="Commit message for git repo",
                     type=str)
+parser.add_argument("--verbose", help="verbose mode", action="store_true", default=False)
 args = parser.parse_args()
+
+verbose = args.verbose
 
 if args.install is True:
     install_dotfiles()
