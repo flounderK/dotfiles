@@ -72,8 +72,8 @@ plugins=(
   vundle
   battery
   command-not-found
-#  zsh-syntax-highlighting
-#  zsh-autosuggestions
+  zsh-syntax-highlighting
+  zsh-autosuggestions
   nmap
   python
   rsync
@@ -120,7 +120,7 @@ alias ea='vim ~/.bashrc'
 alias pacrepo='sudo reflector -l 20 -f 10 --save /etc/pacman.d/mirrorlist'
 alias pacu='sudo pacman -Syu --noconfirm'
 alias auru='yaourt -Syua --noconfirm'
-alias se='ls /usr/bin | grep'
+alias se='ls /usr/bin /bin | sort | uniq | grep'
 alias calc='gnome-calculator&'
 alias firefox='firefox&'
 alias conda='sudo conda'
@@ -135,9 +135,9 @@ alias pwsh='env TERM=xterm pwsh'
 alias rake='noglob rake'
 alias meow='lolcat'
 alias cowtune='fortune -e | cowthink -n'
-alias inet4='ifconfig -a | grep -P "inet[^6]"'
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+alias inet4='ip addr | grep -P "inet[^6]"'
+alias list-bindsyms='cat ~/.config/i3/config | grep -P "^bindsym" --color=never'
+alias ei3='vim ~/.config/i3/config'
 cowtune
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+#export PATH="$PATH:$HOME/.rvm/bin"
