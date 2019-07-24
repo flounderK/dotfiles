@@ -18,20 +18,29 @@ def sanitize(commit):
     return commit
 
 
-def get_file_offsets(path):
+def get_file_offsets(path, specified_file_names=None):
+    """return all of the files in the specified path, or if filenames are specified
+    :param path:
+    :param specified_file_names:
+    :return:
+    """
     file_paths = list()
 
     for root, dirs, files in os.walk(path):
         root_offset = root.replace(path, "")
-        if len(root_offset) > 0 and  root_offset[0] == "/":
+        if len(root_offset) > 0 and root_offset[0] == "/":
             root_offset = root_offset[1:]
-        file_paths.extend([os.path.join(root_offset, i) for i in files])
+        if specified_file_names is not None:
+            paths_to_return = [os.path.join(root_offset, i) for i in files if i in specified_file_names]
+        else:
+            paths_to_return = [os.path.join(root_offset, i) for i in files]
+        file_paths.extend(paths_to_return)
     return file_paths
 
 
-def install_dotfiles():
+def install_dotfiles(specified_files=None):
     dotfiles_repo_dir = os.path.abspath(os.path.dirname(__file__))
-    offsets = get_file_offsets(dotfiles_repo_dir)
+    offsets = get_file_offsets(dotfiles_repo_dir, specified_files)
     home = os.path.expanduser("~")
     ignore_patterns = [r'\.idea', r'\.git/', r'my-dotfiles-settings', r'\.gitignore']
     for pat in ignore_patterns:
@@ -65,8 +74,8 @@ args = parser.parse_args()
 
 verbose = args.verbose
 
-if args.install is True:
-    install_dotfiles()
+if args.install is True and args.files is None:
+    install_dotfiles(args.files)
     print("Dotfiles installed")
     exit(0)
 
@@ -87,8 +96,11 @@ if args.files is None or args.list_files is True:
 else:
     files_to_update = [i.replace(home + "/", "") for i in args.files]
 repo_locations = [os.path.expanduser(i) for i in list(config_parser["repo-location"].keys())]
-for i in repo_locations:
-    print(i)
+
+if args.install is True and args.files is not None:
+    install_dotfiles(args.files)
+    exit(0)
+
 if args.list_files is True:
     for i in files_to_update:
         print(i)
@@ -121,6 +133,9 @@ for repo in repo_locations:
         repo_dir_path = os.path.split(os.path.join(repo, file))[0]
         if not os.path.exists(repo_dir_path):
             os.makedirs(repo_dir_path, exist_ok=True)
+        if not os.path.exists(file_path):
+            verbose_print(f"File: {file_path} does not exist, skipping")
+            continue
         shutil.copy(file_path, os.path.join(repo, file))
         if args.commit != "":
             os.chdir(repo_dir_path)
