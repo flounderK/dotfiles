@@ -11,6 +11,7 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-scripts/indentpython.vim'
+Plugin 'tpope/vim-fugitive'
 Bundle 'Valloric/YouCompleteMe'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'nvie/vim-flake8'
@@ -29,11 +30,16 @@ call vundle#end()
 
 filetype plugin indent on
 
+
+
+
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled=1
-
+let g:airline_theme='murmur'
 set laststatus=2
 set ttimeoutlen=50
+
+
 
 syntax on
 set splitbelow
@@ -46,6 +52,7 @@ nnoremap <C-H> <C-W><C-H>
 map <F6> :NERDTreeToggle<CR>
 "set showtabline=2
 " set timeoutlen=1000 ttimeoutlen=10
+
 
 set background=light
 colorscheme onedark
