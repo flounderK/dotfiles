@@ -15,16 +15,25 @@ Bundle 'Valloric/YouCompleteMe'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'nvie/vim-flake8'
 Plugin 'jnurmine/Zenburn'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'joshdick/onedark.vim'
-Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'majutsushi/tagbar'
 Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'
 
+call vundle#end()
+
 filetype plugin indent on
+
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled=1
+
+set laststatus=2
+set ttimeoutlen=50
 
 syntax on
 set splitbelow
@@ -35,9 +44,8 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 map <F6> :NERDTreeToggle<CR>
-set laststatus=2
 "set showtabline=2
-set timeoutlen=1000 ttimeoutlen=10
+" set timeoutlen=1000 ttimeoutlen=10
 
 set background=light
 colorscheme onedark
@@ -70,7 +78,7 @@ map <F3> :YcmCompleter GoTo<CR>
 let mapleader = ","
 let python_highlight_all=1
 
-au BufNewFile,BufRead *.py
+autocmd BufNewFile,BufRead *.py
 	\ set tabstop=4 |
 	\ set softtabstop=4 |
 	\ set shiftwidth=4 |
@@ -85,7 +93,7 @@ au BufNewFile,BufRead *.py
 	\ nnoremap <buffer> <F5> :exec '!python -i' shellescape(@%, 1)<cr> |
 	\ nnoremap <buffer> <F4> :exec '!python -d' shellescape(@%, 1)<cr>
 
-au Filetype html
+autocmd Filetype html
 	\ set tabstop=4 |
 	\ set softtabstop=4 |
 	\ set shiftwidth=4 |
@@ -95,7 +103,7 @@ au Filetype html
 	\ set encoding=utf-8 |
 	\ nnoremap <buffer> <F5> :exec '!xdg-open' shellescape(@%, 1)<CR>
 
-au Filetype css
+autocmd Filetype css
 	\ set tabstop=4 |
 	\ set softtabstop=4 |
 	\ set shiftwidth=4 |
@@ -104,7 +112,7 @@ au Filetype css
 	\ set expandtab |
 	\ set encoding=utf-8 
 
-au Filetype js
+autocmd Filetype js
 	\ set tabstop=4 |
 	\ set softtabstop=4 |
 	\ set shiftwidth=4 |
@@ -114,7 +122,7 @@ au Filetype js
 	\ nnoremap <buffer> <F5> :exec '!node' shellescape(@%, 1)<CR>
 
 "autocmd filetype cpp nnoremap <F4> :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
-au Filetype cpp
+autocmd Filetype cpp
 	\ set tabstop=4 |
 	\ set softtabstop=4 | 
 	\ set shiftwidth=4 |
@@ -127,7 +135,8 @@ au Filetype cpp
 	\ set makeprg=make\ -C\ ../build\ -j9 |
 	\ nnoremap <F4> :make!<cr> |
 	\ nnoremap <F5> :exec '!' shellescape(@%,1)<CR>
-au Filetype c
+
+autocmd Filetype c
 	\ set tabstop=4 |
 	\ set softtabstop=4 | 
 	\ set shiftwidth=4 |
