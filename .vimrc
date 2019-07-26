@@ -12,6 +12,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
 Bundle 'Valloric/YouCompleteMe'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'nvie/vim-flake8'
@@ -22,22 +23,25 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'joshdick/onedark.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'majutsushi/tagbar'
 Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'
+
 
 call vundle#end()
 
 filetype plugin indent on
 
 
-
-
+let g:airline#extensions#ycm#enabled=1
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled=1
-let g:airline_theme='murmur'
+let g:airline_theme='molokai'
 set laststatus=2
 set ttimeoutlen=50
+
+
+
+
 
 
 
@@ -54,11 +58,11 @@ map <F6> :NERDTreeToggle<CR>
 " set timeoutlen=1000 ttimeoutlen=10
 
 
-set background=light
+set background=dark
 colorscheme onedark
 
 set nu
-set tabstop=4 
+set tabstop=4
 set softtabstop=4 
 set shiftwidth=4 
 "let g:UltiSnipsExpandTrigger=","
