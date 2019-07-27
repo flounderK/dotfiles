@@ -30,12 +30,12 @@ call vundle#end()
 
 filetype plugin indent on
 
-
+set termguicolors
 let g:airline#extensions#ycm#enabled=1
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled=1
 " colorscheme koehler
-let g:airline_theme='molokai'
+let g:airline_theme='cobalt2'
 set laststatus=2
 set ttimeoutlen=50
 set t_Co=256
@@ -58,7 +58,6 @@ map <F6> :NERDTreeToggle<CR>
 " set timeoutlen=1000 ttimeoutlen=10
 
 
-set background=dark
 colorscheme onedark
 
 set nu
