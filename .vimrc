@@ -1,6 +1,5 @@
 scriptencoding utf-8
 set encoding=utf-8
-set enc=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,uft8,prc
 
@@ -35,10 +34,11 @@ filetype plugin indent on
 let g:airline#extensions#ycm#enabled=1
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled=1
+" colorscheme koehler
 let g:airline_theme='molokai'
 set laststatus=2
 set ttimeoutlen=50
-
+set t_Co=256
 
 
 
@@ -90,71 +90,28 @@ let mapleader = ","
 let python_highlight_all=1
 
 autocmd BufNewFile,BufRead *.py
-	\ set tabstop=4 |
-	\ set softtabstop=4 |
-	\ set shiftwidth=4 |
 	\ set textwidth=79 |
 	\ set colorcolumn=80 |
 	\ set expandtab |
 	\ set autoindent |
 	\ set fileformat=unix |
-	\ set nu |
-	\ set encoding=utf-8 |
 	\ let g:ycm_python_binary_path = 'python' |
 	\ nnoremap <buffer> <F5> :exec '!python -i' shellescape(@%, 1)<cr> |
 	\ nnoremap <buffer> <F4> :exec '!python -d' shellescape(@%, 1)<cr>
 
-autocmd Filetype html
-	\ set tabstop=4 |
-	\ set softtabstop=4 |
-	\ set shiftwidth=4 |
-	\ set nu |
-	\ set autoindent |
-	\ set expandtab |
-	\ set encoding=utf-8 |
-	\ nnoremap <buffer> <F5> :exec '!xdg-open' shellescape(@%, 1)<CR>
-
-autocmd Filetype css
-	\ set tabstop=4 |
-	\ set softtabstop=4 |
-	\ set shiftwidth=4 |
-	\ set nu |
-	\ set autoindent |
-	\ set expandtab |
-	\ set encoding=utf-8 
-
-autocmd Filetype js
-	\ set tabstop=4 |
-	\ set softtabstop=4 |
-	\ set shiftwidth=4 |
-	\ set nu |
-	\ set expandtab |
-	\ set autoindent |
-	\ nnoremap <buffer> <F5> :exec '!node' shellescape(@%, 1)<CR>
-
 "autocmd filetype cpp nnoremap <F4> :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
-autocmd Filetype cpp
-	\ set tabstop=4 |
-	\ set softtabstop=4 | 
-	\ set shiftwidth=4 |
+autocmd BufNewFile,BufRead *.cpp
 	\ set expandtab |
 	\ set autoindent |
-	\ set nu |
-	\ set encoding=utf-8 |
 	\ set colorcolumn=110 |
 	\ let &path.="src/include,/usr/include/AL," |
 	\ set makeprg=make\ -C\ ../build\ -j9 |
 	\ nnoremap <F4> :make!<cr> |
 	\ nnoremap <F5> :exec '!' shellescape(@%,1)<CR>
 
-autocmd Filetype c
-	\ set tabstop=4 |
-	\ set softtabstop=4 | 
-	\ set shiftwidth=4 |
+autocmd BufNewFile,BufRead *.c
 	\ set expandtab |
 	\ set autoindent |
-	\ set nu |
-	\ set encoding=utf-8 |
 	\ set colorcolumn=110 |
 	\ let &path.="src/include,/usr/include/AL,/lib/modules/5.1.5-arch1-2-ARCH/build/include" |
 	\ set makeprg=make\ -C\ ../build\ -j9 |
