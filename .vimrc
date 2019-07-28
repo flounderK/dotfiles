@@ -13,19 +13,23 @@ Plugin 'vim-scripts/indentpython.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 Bundle 'Valloric/YouCompleteMe'
+" Requires running install script
 Plugin 'vim-syntastic/syntastic'
 Plugin 'nvie/vim-flake8'
 Plugin 'jnurmine/Zenburn'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+" community/awesome-terminal-fonts 
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'joshdick/onedark.vim'
+" requires copying files (see install section)
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'honza/vim-snippets'
 Plugin 'SirVer/ultisnips'
 Plugin 'skywind3000/asyncrun.vim'
-
+Plugin 'majutsushi/tagbar'
+" extra/ctags
 call vundle#end()
 
 filetype plugin indent on
@@ -54,6 +58,7 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 map <F6> :NERDTreeToggle<CR>
+nmap <F7> :TagbarToggle<CR>
 "set showtabline=2
 " set timeoutlen=1000 ttimeoutlen=10
 
@@ -104,7 +109,8 @@ autocmd BufNewFile,BufRead *.cpp,*.cxx,*.c,*.h,*.hpp,*.hxx
 	\ set autoindent |
 	\ set colorcolumn=110 |
 	\ let &path.="src/include,/usr/include/AL," |
-	\ nnoremap <buffer> <F5> :AsyncRun make -j8<cr> 
+	\ nnoremap <buffer> <F5> :AsyncRun make -j8<cr> |
+	\ nnoremap <buffer> <F4> :AsyncRun make clean && make -j8<cr>
 
 " Borrowing airline's example
 function! AirlineThemePatch(palette)
