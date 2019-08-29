@@ -81,7 +81,7 @@ if args.install is True and args.files is None:
 
 config_file_path = os.path.expanduser("~/.config/my-dotfiles-settings")
 # check for config file 
-if not os.path.exists(config_file_path):
+if not os.path.exists(config_file_path) and args.install is not True:
     print('file ~/.config/my-dotfiles-settings does not exist. exiting')
     exit(1)
 
@@ -99,6 +99,7 @@ repo_locations = [os.path.expanduser(i) for i in list(config_parser["repo-locati
 
 if args.install is True and args.files is not None:
     install_dotfiles(args.files)
+    print("Installation complete")
     exit(0)
 
 if args.list_files is True:
