@@ -74,14 +74,15 @@ args = parser.parse_args()
 
 verbose = args.verbose
 
-if args.install is True and args.files is None:
+if args.install is True:
     install_dotfiles(args.files)
     print("Dotfiles installed")
     exit(0)
 
+
 config_file_path = os.path.expanduser("~/.config/my-dotfiles-settings")
 # check for config file 
-if not os.path.exists(config_file_path) and args.install is not True:
+if not os.path.exists(config_file_path):
     print('file ~/.config/my-dotfiles-settings does not exist. exiting')
     exit(1)
 
@@ -97,10 +98,6 @@ else:
     files_to_update = [i.replace(home + "/", "") for i in args.files]
 repo_locations = [os.path.expanduser(i) for i in list(config_parser["repo-location"].keys())]
 
-if args.install is True and args.files is not None:
-    install_dotfiles(args.files)
-    print("Installation complete")
-    exit(0)
 
 if args.list_files is True:
     for i in files_to_update:
