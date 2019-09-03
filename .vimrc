@@ -14,12 +14,13 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 Bundle 'Valloric/YouCompleteMe'
 " Requires running install script
+Bundle 'rdnetto/YCM-Generator'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'nvie/vim-flake8'
 Plugin 'jnurmine/Zenburn'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-" community/awesome-terminal-fonts 
+" community/awesome-terminal-fonts
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'joshdick/onedark.vim'
 " requires copying files (see install section)
@@ -38,6 +39,8 @@ set termguicolors
 let g:airline#extensions#ycm#enabled=1
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#ycm#error_symbol = 'E:'
+let g:airline#extensions#ycm#warning_symbol = 'W:'
 " colorscheme koehler
 let g:airline_theme='cobalt2'
 set laststatus=2
@@ -57,6 +60,10 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+
+
+
+
 map <F6> :NERDTreeToggle<CR>
 nmap <F7> :TagbarToggle<CR>
 "set showtabline=2
@@ -67,11 +74,17 @@ colorscheme onedark
 
 set nu
 set tabstop=4
-set softtabstop=4 
-set shiftwidth=4 
+set softtabstop=4
+set shiftwidth=4
 "let g:UltiSnipsExpandTrigger=","
 "let g:UltiSnipsJumpForwardTrigger="<tab>"
 "let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:ycm_register_as_syntastic_checker = 1
+let g:Show_diagnostics_ui = 1
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_always_populate_location_list = 1 " default 0
+let g:ycm_open_loclist_on_ycm_diags = 1
 
 let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
 let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
@@ -82,12 +95,12 @@ let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_min_num_identifier_candidate_chars = 1
 let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_max_num_identifier_candidates = 0
-
-"let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
-"let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
-let g:ycm_key_list_select_completion = ['<tab>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<s-tab>', '<Up>']
-let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+let g:ycm_filetype_whitelist = { '*': 1 }
+let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+"let g:ycm_key_list_select_completion = ['<tab>', '<Down>']
+"let g:ycm_key_list_previous_completion = ['<s-tab>', '<Up>']
+let g:ycm_global_ycm_extra_conf = "$HOME/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py"
 map <F3> :YcmCompleter GoTo<CR>
 "map <leader>g  : YcmCompleter GoToDefinitionElseDeclaration<CR>
 let mapleader = ","
@@ -104,11 +117,11 @@ autocmd BufNewFile,BufRead *.py
 	\ nnoremap <buffer> <F4> :exec '!python -d' shellescape(@%, 1)<cr>
 
 "autocmd filetype cpp nnoremap <F4> :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
-autocmd BufNewFile,BufRead *.cpp,*.cxx,*.c,*.h,*.hpp,*.hxx
+autocmd BufNewFile,BufRead *.cpp,*.cxx,*.c,*.h,*.hpp,*.hxx,*.asm
 	\ set expandtab |
 	\ set autoindent |
 	\ set colorcolumn=110 |
-	\ let &path.="src/include,/usr/include/AL," |
+	\ let &path.="src/include,/usr/include/AL,/usr/include/linux" |
 	\ nnoremap <buffer> <F5> :AsyncRun make -j8<cr> |
 	\ nnoremap <buffer> <F4> :AsyncRun make clean && make -j8<cr>
 
@@ -131,7 +144,7 @@ function! Get_asyncrun_running()
 		elseif async_status == 'failure'
 			call airline#parts#define_accent('asyncrun_status', 'failure')
 		endif
-		
+
 		let g:airline_section_x = airline#section#create(['asyncrun_status'])
 		AirlineRefresh
 		let g:async_status_old = async_status
