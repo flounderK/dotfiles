@@ -31,6 +31,7 @@ Plugin 'SirVer/ultisnips'
 Plugin 'skywind3000/asyncrun.vim'
 Plugin 'majutsushi/tagbar'
 " extra/ctags
+Plugin 'ctrlpvim/ctrlp.vim'
 call vundle#end()
 
 filetype plugin indent on
@@ -103,8 +104,13 @@ let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
 let g:ycm_global_ycm_extra_conf = "$HOME/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py"
 map <F3> :YcmCompleter GoTo<CR>
 "map <leader>g  : YcmCompleter GoToDefinitionElseDeclaration<CR>
-let mapleader = ","
+"let mapleader = ","
 let python_highlight_all=1
+
+
+"ctags black magic
+nnoremap <Leader>. :CtrlPTag<cr>
+
 
 autocmd BufNewFile,BufRead *.py
 	\ set textwidth=79 |
