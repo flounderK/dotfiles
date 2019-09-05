@@ -139,6 +139,7 @@ alias inet4='ip addr | grep -P "inet[^6]"'
 alias list-bindsyms='cat ~/.config/i3/config | grep -P "^bindsym" --color=never'
 alias ei3='vim ~/.config/i3/config'
 alias taggen='ctags -R'
+alias quickswap='mkdir -p /mnt/ram; mount -t tmpfs tmpfs /mnt/ram -o size=4096'
 cowtune
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 #export PATH="$PATH:$HOME/.rvm/bin"
