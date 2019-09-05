@@ -43,7 +43,8 @@ def install_dotfiles(specified_files=None):
     offsets = get_file_offsets(dotfiles_repo_dir, specified_files)
     home = os.path.expanduser("~")
     ignore_patterns = [r'\.idea', r'\.git/', r'my-dotfiles-settings',
-                       r'\.gitignore', __name__, r'dotfilesInstallScripts']
+                       r'\.gitignore', __name__, r'dotfilesInstallScripts',
+                      r'README.md']
     for pat in ignore_patterns:
         offsets = [s for s, i in [(m, re.search(pat, m)) for m in offsets] if i is None]
 
