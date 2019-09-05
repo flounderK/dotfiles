@@ -2,7 +2,9 @@ scriptencoding utf-8
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,uft8,prc
-
+set ttyfast
+set noerrorbells
+set showcmd
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -50,6 +52,7 @@ set t_Co=256
 
 
 
+map ,<tab> :bnext<cr>
 
 
 
@@ -111,6 +114,9 @@ let python_highlight_all=1
 "ctags black magic
 nnoremap <Leader>. :CtrlPTag<cr>
 
+"flake8's map is greedy, turn it off
+let no_flake8_maps = 1
+autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR> 
 
 autocmd BufNewFile,BufRead *.py
 	\ set textwidth=79 |
