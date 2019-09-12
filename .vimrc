@@ -34,8 +34,11 @@ Plugin 'skywind3000/asyncrun.vim'
 Plugin 'majutsushi/tagbar'
 " extra/ctags
 Plugin 'ctrlpvim/ctrlp.vim'
-Bundle 'mrk21/yaml-vim'
+Plugin 'mrk21/yaml-vim'
+Plugin 'vim-python/python-syntax'
 call vundle#end()
+
+" community/bandit
 
 filetype plugin indent on
 
@@ -85,6 +88,7 @@ set shiftwidth=4
 "let g:UltiSnipsJumpForwardTrigger="<tab>"
 "let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:ycm_register_as_syntastic_checker = 1
+let g:syntastic_enable_highlighting = 1
 let g:Show_diagnostics_ui = 1
 let g:ycm_enable_diagnostic_signs = 1
 let g:ycm_enable_diagnostic_highlighting = 0
@@ -109,8 +113,11 @@ let g:ycm_global_ycm_extra_conf = "$HOME/.vim/bundle/YouCompleteMe/.ycm_extra_co
 map <F3> :YcmCompleter GoTo<CR>
 "map <leader>g  : YcmCompleter GoToDefinitionElseDeclaration<CR>
 "let mapleader = ","
-let python_highlight_all=1
 
+let python_highlight_all=1
+let g:python_highlight_builtins=1
+let g:python_highlight_string_format=1
+let g:python_hightlight_class_vars=1
 
 "ctags black magic
 nnoremap <Leader>. :CtrlPTag<cr>
@@ -126,6 +133,7 @@ autocmd BufNewFile,BufRead *.py
 	\ set autoindent |
 	\ set fileformat=unix |
 	\ let g:ycm_python_binary_path = 'python' |
+	\ let g:syntastic_python_checkers = ['flake8'] | 
 	\ nnoremap <buffer> <F5> :exec '!ipython -i' shellescape(@%, 1)<cr> |
 	\ nnoremap <buffer> <F4> :exec '!ipython -d' shellescape(@%, 1)<cr>
 
@@ -174,6 +182,10 @@ call airline#parts#define_function('asyncrun_status', 'Get_asyncrun_running')
 let g:airline_section_x = airline#section#create(['asyncrun_status'])
 
 
-
-
-
+" useful things for later
+" :h w18
+" :h syn
+" :h mysyntaxfile-add
+" hi def link
+" C-[ and C-t with ctags
+" 
