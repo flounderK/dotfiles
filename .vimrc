@@ -125,8 +125,8 @@ autocmd BufNewFile,BufRead *.py
 	\ set autoindent |
 	\ set fileformat=unix |
 	\ let g:ycm_python_binary_path = 'python' |
-	\ nnoremap <buffer> <F5> :exec '!python -i' shellescape(@%, 1)<cr> |
-	\ nnoremap <buffer> <F4> :exec '!python -d' shellescape(@%, 1)<cr>
+	\ nnoremap <buffer> <F5> :exec '!ipython -i' shellescape(@%, 1)<cr> |
+	\ nnoremap <buffer> <F4> :exec '!ipython -d' shellescape(@%, 1)<cr>
 
 "autocmd filetype cpp nnoremap <F4> :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
 autocmd BufNewFile,BufRead *.cpp,*.cxx,*.c,*.h,*.hpp,*.hxx,*.asm
@@ -136,6 +136,11 @@ autocmd BufNewFile,BufRead *.cpp,*.cxx,*.c,*.h,*.hpp,*.hxx,*.asm
 	\ let &path.="src/include,/usr/include/AL,/usr/include/linux" |
 	\ nnoremap <buffer> <F5> :AsyncRun make -j8<cr> |
 	\ nnoremap <buffer> <F4> :AsyncRun make clean && make -j8<cr>
+
+"YAML file config from
+"https://lornajane.net/posts/2018/vim-settings-for-working-with-yaml
+au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 " Borrowing airline's example
 function! AirlineThemePatch(palette)
