@@ -14,9 +14,9 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
-Bundle 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe'
 " Requires running install script
-Bundle 'rdnetto/YCM-Generator'
+Plugin 'rdnetto/YCM-Generator'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'nvie/vim-flake8'
 Plugin 'jnurmine/Zenburn'
@@ -34,6 +34,7 @@ Plugin 'skywind3000/asyncrun.vim'
 Plugin 'majutsushi/tagbar'
 " extra/ctags
 Plugin 'ctrlpvim/ctrlp.vim'
+Bundle 'mrk21/yaml-vim'
 call vundle#end()
 
 filetype plugin indent on
