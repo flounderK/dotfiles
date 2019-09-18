@@ -36,6 +36,7 @@ Plugin 'majutsushi/tagbar'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'mrk21/yaml-vim'
 Plugin 'vim-python/python-syntax'
+Plugin 'godlygeek/tabular'
 call vundle#end()
 
 " community/bandit
@@ -127,7 +128,7 @@ let no_flake8_maps = 1
 autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR> 
 
 autocmd BufNewFile,BufRead *.py
-	\ set textwidth=79 |
+	" \ set textwidth=79 |
 	\ set colorcolumn=80 |
 	\ set expandtab |
 	\ set autoindent |
