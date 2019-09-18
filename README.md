@@ -1,2 +1,5 @@
 # dotfiles
-Trying to save my broken config so that I don't have to work as hard to remake it when I inevitably break my machine
+
+An amazing vim config, a mediocre zsh config, and (for those with no fear) emojis in your terminal.
+
+Also my script for quickly updating/installing my dotfiles on many machines.
