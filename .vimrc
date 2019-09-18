@@ -127,8 +127,8 @@ nnoremap <Leader>. :CtrlPTag<cr>
 let no_flake8_maps = 1
 autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR> 
 
-autocmd BufNewFile,BufRead *.py
 	" \ set textwidth=79 |
+autocmd BufNewFile,BufRead *.py
 	\ set colorcolumn=80 |
 	\ set expandtab |
 	\ set autoindent |
