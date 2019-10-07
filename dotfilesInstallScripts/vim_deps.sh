@@ -1,7 +1,9 @@
 #!/bin/bash
 
-echo "Installing Vundle"
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi 
 
 version=$(uname -v)
 debbased=$(echo $version | grep -Pio "(debian|ubuntu)")

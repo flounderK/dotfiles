@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
 
 version=$(uname -v)
 debbased=$(echo $version | grep -Pio "(debian|ubuntu)")
@@ -7,9 +11,7 @@ if [[ ! -z "$debbased" ]]
 then
 	apt update 
 	apt install zsh
+	exit 0
 fi
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-
+pacman -S zsh
