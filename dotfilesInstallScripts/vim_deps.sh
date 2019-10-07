@@ -9,6 +9,7 @@ if [[ ! -z "$debbased" ]]
 then
 	apt update 
 	apt install fonts-powerline
+	exit 0
 fi
 
-
+pacman -S awesome-terminal-fonts noto-fonts noto-fonts-extra powerline-fonts 
