@@ -37,6 +37,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'mrk21/yaml-vim'
 Plugin 'vim-python/python-syntax'
 Plugin 'godlygeek/tabular'
+Plugin 'davehalter/jedi-vim'
 call vundle#end()
 
 " community/bandit
