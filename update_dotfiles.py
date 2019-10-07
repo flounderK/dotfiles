@@ -69,7 +69,7 @@ parser.add_argument("--list-files", help="Lists files that will be updated", act
 parser.add_argument("--list-repos", help="List the repo locations that will be updated",
                     action="store_true", default=False)
 parser.add_argument("--install", help="Install files to current user's config", default=False, action="store_true")
-parser.add_argument("--files", help="Specific files that you would like to update", nargs="+")
+parser.add_argument("-f", "--files", help="Specific files that you would like to update", nargs="+")
 parser.add_argument("--commit", help="Commit message for git repo",
                     type=str, default="")
 parser.add_argument("--verbose", help="verbose mode", action="store_true", default=False)
