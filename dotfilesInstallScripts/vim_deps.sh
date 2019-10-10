@@ -14,4 +14,4 @@ then
 	exit 0
 fi
 
-pacman -S awesome-terminal-fonts noto-fonts noto-fonts-extra powerline-fonts ctags 
+pacman -S awesome-terminal-fonts noto-fonts noto-fonts-extra powerline-fonts ctags flake8

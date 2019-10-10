@@ -11,6 +11,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'vim-jp/vital.vim'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
@@ -37,7 +38,9 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'mrk21/yaml-vim'
 Plugin 'vim-python/python-syntax'
 Plugin 'godlygeek/tabular'
-Plugin 'davehalter/jedi-vim'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'vim-scripts/OmniCppComplete'
+
 call vundle#end()
 
 " community/bandit
