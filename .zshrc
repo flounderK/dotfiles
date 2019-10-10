@@ -112,6 +112,9 @@ EDITOR=/usr/bin/vim
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # Hey Dumbass, to fix the broken stuff with ruby uncomment the next line
 #[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+#
+function mimeopen () {nohup mimeopen "$@" &>/dev/null &}
+
 alias ls='ls --color=auto'
 alias ll='ls -Ahl --color=auto --group-directories-first'
 alias la='cat ~/.zshrc | grep -P -o "(?<=^alias\ ).+"'
@@ -137,6 +140,7 @@ alias ei3='vim ~/.config/i3/config'
 alias quickswap='mkdir -p /mnt/ram; mount -t tmpfs tmpfs /mnt/ram -o size=4096'
 alias ccat='highlight'
 alias ssh='TERM=linux ssh'
+alias sshpass='TERM=linux sshpass'
 alias ansible-vault="EDITOR=$EDITOR ansible-vault"
 alias gb='git branch -a | cat -'
 cowtune
