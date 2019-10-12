@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH=~/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -113,7 +113,7 @@ EDITOR=/usr/bin/vim
 # Hey Dumbass, to fix the broken stuff with ruby uncomment the next line
 #[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 #
-function mimeopen () {nohup mimeopen "$@" &>/dev/null &}
+function mimeopen () {nohup mimeopen "$@" &>/dev/null & disown}
 
 alias ls='ls --color=auto'
 alias ll='ls -Ahl --color=auto --group-directories-first'
@@ -123,9 +123,9 @@ alias eb='vim ~/.bashrc'
 alias pacrepo='sudo reflector -l 20 -f 10 --save /etc/pacman.d/mirrorlist'
 alias pacu='sudo pacman -Syu --noconfirm'
 alias se='ls /usr/bin /bin /sbin | sort | uniq | grep -i'
-alias calc='gnome-calculator&'
-alias firefox='firefox&'
-alias steam='steam&'
+alias calc='gnome-calculator &>/dev/null & disown'
+alias firefox='firefox &>/dev/null & disown'
+alias steam='steam &>/dev/null & disown'
 alias disks='ls -Ahl --color=auto /dev/disks/by-label/'
 alias ev='vim ~/.vimrc'
 alias show-tree='systemd-cgls / pstree'
@@ -133,7 +133,7 @@ alias ez='vim ~/.zshrc'
 alias pwsh='env TERM=xterm pwsh'
 alias rake='noglob rake'
 alias meow='lolcat'
-alias cowtune='fortune -e | cowthink -n'
+command -v fortune >/dev/null && command -v cowthink >/dev/null && alias cowtune='fortune -e | cowthink -n'
 alias inet4='ip addr | grep -P "inet[^6]"'
 alias list-bindsyms='cat ~/.config/i3/config | grep -P "^bindsym" --color=never'
 alias ei3='vim ~/.config/i3/config'
@@ -143,6 +143,7 @@ alias ssh='TERM=linux ssh'
 alias sshpass='TERM=linux sshpass'
 alias ansible-vault="EDITOR=$EDITOR ansible-vault"
 alias gb='git branch -a | cat -'
-cowtune
+alias calcurse='calcurse -D ~/.config/calcurse'
+cowtune 2>/dev/null
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 #export PATH="$PATH:$HOME/.rvm/bin"
