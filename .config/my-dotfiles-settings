@@ -1,8 +1,15 @@
 [repo-location]
-~/path/to/my/dotfiles/repo
+~/Documents/cloned/dotfiles/
 
 [files-to-update]
+.config/i3status/config
+.config/compton.conf
 .config/termite/config
 .config/i3/config
 .zshrc
 .Xresources
+.vimrc
+.gdbinit
+.xinitrc
+.zprofile
+.tmux.conf
