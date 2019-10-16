@@ -156,7 +156,8 @@ autocmd BufNewFile,BufRead *.cpp,*.cxx,*.c,*.h,*.hpp,*.hxx,*.asm
 
 " markdown 
 autocmd BufNewFile,BufRead *.md
-	\ map <leader>c :w! \| :AsyncRun pandoc --pdf-engine=xelatex -s -o '%:r.pdf' <c-r>%<CR>
+	\ map <leader>c :w! \| :AsyncRun pandoc --pdf-engine=xelatex -s -o '%:r.pdf' <c-r>%<CR> |
+	\ map <leader>m :w! \| :AsyncRun mimeopen '%:r.pdf'<CR>
 
 "YAML file config from
 "https://lornajane.net/posts/2018/vim-settings-for-working-with-yaml
