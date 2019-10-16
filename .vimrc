@@ -117,7 +117,7 @@ let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
 let g:ycm_global_ycm_extra_conf = "$HOME/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py"
 map <F3> :YcmCompleter GoTo<CR>
 "map <leader>g  : YcmCompleter GoToDefinitionElseDeclaration<CR>
-"let mapleader = ","
+let mapleader = ","
 
 let python_highlight_all=1
 let g:python_highlight_builtins=1
@@ -126,6 +126,9 @@ let g:python_hightlight_class_vars=1
 
 "ctags black magic
 nnoremap <Leader>. :CtrlPTag<cr>
+
+"spell check. 
+map <leader>o :setlocal spell! spelllang=en_use<CR>
 
 "flake8's map is greedy, turn it off
 let no_flake8_maps = 1
@@ -151,9 +154,13 @@ autocmd BufNewFile,BufRead *.cpp,*.cxx,*.c,*.h,*.hpp,*.hxx,*.asm
 	\ nnoremap <buffer> <F5> :AsyncRun make -j8<cr> |
 	\ nnoremap <buffer> <F4> :AsyncRun make clean && make -j8<cr>
 
+" markdown 
+autocmd BufNewFile,BufRead *.md
+	\ map <leader>c :w! \| :AsyncRun pandoc --pdf-engine=xelatex -s -o '%:r.pdf' <c-r>%<CR>
+
 "YAML file config from
 "https://lornajane.net/posts/2018/vim-settings-for-working-with-yaml
-au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 " Borrowing airline's example
