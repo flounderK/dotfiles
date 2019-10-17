@@ -46,7 +46,8 @@ EDITOR=/usr/bin/vim
 # export MANPATH="/usr/local/man:$MANPATH"
 # export LANG=en_US.UTF-8
 function mimeopen () {nohup mimeopen "$@" &>/dev/null & disown}
-
+function libreoffice () {nohup libreoffice "$@" &>/dev/null & disown}
+function firefox () {nohup firefox "$@" &>/dev/null & disown}
 alias ls='ls --color=auto'
 alias ll='ls -Ahl --color=auto --group-directories-first'
 alias la='cat ~/.zshrc | grep -P -o "(?<=^alias\ ).+"'
@@ -56,7 +57,6 @@ alias pacrepo='sudo reflector -l 20 -f 10 --save /etc/pacman.d/mirrorlist'
 alias pacu='sudo pacman -Syu --noconfirm'
 alias se='ls /usr/bin /bin /sbin | sort | uniq | grep -i'
 alias calc='gnome-calculator &>/dev/null & disown'
-alias firefox='firefox &>/dev/null & disown'
 alias steam='steam &>/dev/null & disown'
 alias disks='ls -Ahl --color=auto /dev/disks/by-label/'
 alias ev='vim ~/.vimrc'
