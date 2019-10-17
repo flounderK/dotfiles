@@ -75,7 +75,7 @@ nnoremap <C-H> <C-W><C-H>
 
 
 
-
+autocmd BufWritePre * %s/\s\+$//e
 
 map <F6> :NERDTreeToggle<CR>
 nmap <F7> :TagbarToggle<CR>
@@ -127,12 +127,12 @@ let g:python_hightlight_class_vars=1
 "ctags black magic
 nnoremap <Leader>. :CtrlPTag<cr>
 
-"spell check. 
+"spell check.
 map <leader>o :setlocal spell! spelllang=en_use<CR>
 
 "flake8's map is greedy, turn it off
 let no_flake8_maps = 1
-autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR> 
+autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR>
 
 	" \ set textwidth=79 |
 autocmd BufNewFile,BufRead *.py
@@ -141,7 +141,7 @@ autocmd BufNewFile,BufRead *.py
 	\ set autoindent |
 	\ set fileformat=unix |
 	\ let g:ycm_python_binary_path = 'python' |
-	\ let g:syntastic_python_checkers = ['flake8'] | 
+	\ let g:syntastic_python_checkers = ['flake8'] |
 	\ nnoremap <buffer> <F5> :exec '!ipython -i' shellescape(@%, 1)<cr> |
 	\ nnoremap <buffer> <F4> :exec '!ipython -d' shellescape(@%, 1)<cr>
 
@@ -154,7 +154,7 @@ autocmd BufNewFile,BufRead *.cpp,*.cxx,*.c,*.h,*.hpp,*.hxx,*.asm
 	\ nnoremap <buffer> <F5> :AsyncRun make -j8<cr> |
 	\ nnoremap <buffer> <F4> :AsyncRun make clean && make -j8<cr>
 
-" markdown 
+" markdown
 autocmd BufNewFile,BufRead *.md
 	\ map <leader>c :w! \| :AsyncRun pandoc --pdf-engine=xelatex -s -o '%:r.pdf' <c-r>%<CR> |
 	\ map <leader>m :w! \| :AsyncRun mimeopen '%:r.pdf'<CR>
@@ -201,4 +201,4 @@ let g:airline_section_x = airline#section#create(['asyncrun_status'])
 " :h mysyntaxfile-add
 " hi def link
 " C-[ and C-t with ctags
-" 
+"
