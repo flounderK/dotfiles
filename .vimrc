@@ -61,7 +61,7 @@ set t_Co=256
 
 
 
-map ,<tab> :bnext<cr>
+map <leader><tab> :bnext<cr>
 
 
 
@@ -78,7 +78,11 @@ nnoremap <C-H> <C-W><C-H>
 autocmd BufWritePre * %s/\s\+$//e
 
 map <F6> :NERDTreeToggle<CR>
+let g:NERDTreeWinSize=40
+noremap <leader>d :bp<cr>:bd #<cr>
+
 nmap <F7> :TagbarToggle<CR>
+let g:Tlist_WinWidth=40
 "set showtabline=2
 " set timeoutlen=1000 ttimeoutlen=10
 
@@ -128,7 +132,7 @@ let g:python_hightlight_class_vars=1
 nnoremap <Leader>. :CtrlPTag<cr>
 
 "spell check.
-map <leader>o :setlocal spell! spelllang=en_use<CR>
+map <leader>o :setlocal spell! spelllang=en_us<CR>
 
 "flake8's map is greedy, turn it off
 let no_flake8_maps = 1
