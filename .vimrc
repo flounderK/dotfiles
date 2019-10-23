@@ -151,6 +151,7 @@ autocmd BufNewFile,BufRead *.py
 	\ set fileformat=unix |
 	\ let g:ycm_python_binary_path = 'python' |
 	\ let g:syntastic_python_checkers = ['flake8'] |
+	\ nnoremap <leader>p :Autopep8<cr> |
 	\ nnoremap <buffer> <F5> :exec '!ipython -i' shellescape(@%, 1)<cr> |
 	\ nnoremap <buffer> <F4> :exec '!ipython -d' shellescape(@%, 1)<cr>
 
