@@ -40,6 +40,7 @@ Plugin 'vim-python/python-syntax'
 Plugin 'godlygeek/tabular'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'vim-scripts/OmniCppComplete'
+Plugin 'tell-k/vim-autopep8'
 
 call vundle#end()
 
@@ -59,29 +60,14 @@ set laststatus=2
 set ttimeoutlen=50
 set t_Co=256
 
-
-
-map <leader><tab> :bnext<cr>
-
-
-
 syntax on
 set splitbelow
 set splitright
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
 
 
 
-autocmd BufWritePre * %s/\s\+$//e
 
-map <F6> :NERDTreeToggle<CR>
 let g:NERDTreeWinSize=40
-noremap <leader>d :bp<cr>:bd #<cr>
-
-nmap <F7> :TagbarToggle<CR>
 let g:Tlist_WinWidth=40
 "set showtabline=2
 " set timeoutlen=1000 ttimeoutlen=10
@@ -119,26 +105,45 @@ let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
 "let g:ycm_key_list_select_completion = ['<tab>', '<Down>']
 "let g:ycm_key_list_previous_completion = ['<s-tab>', '<Up>']
 let g:ycm_global_ycm_extra_conf = "$HOME/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py"
-map <F3> :YcmCompleter GoTo<CR>
-"map <leader>g  : YcmCompleter GoToDefinitionElseDeclaration<CR>
-let mapleader = ","
-
 let python_highlight_all=1
 let g:python_highlight_builtins=1
 let g:python_highlight_string_format=1
 let g:python_hightlight_class_vars=1
+let g:autopep8_disable_show_diff=1
+"flake8's map is greedy, turn it off
+let no_flake8_maps = 1
 
+
+" Maps
+
+
+let mapleader = ","
+
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 "ctags black magic
 nnoremap <Leader>. :CtrlPTag<cr>
 
 "spell check.
 map <leader>o :setlocal spell! spelllang=en_us<CR>
 
-"flake8's map is greedy, turn it off
-let no_flake8_maps = 1
-autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR>
+map <F3> :YcmCompleter GoTo<CR>
+"map <leader>g  : YcmCompleter GoToDefinitionElseDeclaration<CR>
+map <leader><tab> :bnext<cr>
 
-	" \ set textwidth=79 |
+map <F6> :NERDTreeToggle<CR>
+noremap <leader>d :bp<cr>:bd #<cr>
+nmap <F7> :TagbarToggle<CR>
+
+
+
+" AutoCmds
+
+
+autocmd BufWritePre * %s/\s\+$//e
+autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR>
 autocmd BufNewFile,BufRead *.py
 	\ set colorcolumn=80 |
 	\ set expandtab |
@@ -167,6 +172,11 @@ autocmd BufNewFile,BufRead *.md
 "https://lornajane.net/posts/2018/vim-settings-for-working-with-yaml
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+
+
+" Functions
+
 
 " Borrowing airline's example
 function! AirlineThemePatch(palette)
