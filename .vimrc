@@ -154,7 +154,7 @@ map <F6> :NERDTreeToggle<CR>
 noremap <leader>d :bp<cr>:bd #<cr>
 nmap <F7> :TagbarToggle<CR>
 " Redraw the screen and remove highlighting
-nnoremap <silent> <C-l> :nohl<CR><C-l>
+nnoremap <silent> <leader><C-l> :nohl<CR><C-l>
 
 
 " AutoCmds
