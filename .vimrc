@@ -3,7 +3,9 @@ set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,uft8,prc
 set ttyfast
-set noerrorbells
+" Disable bell
+set visualbell                  " Disable visual bell
+set noerrorbells                " Disable error bell
 set showcmd
 set nocompatible
 filetype off
@@ -18,7 +20,8 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'Valloric/YouCompleteMe'
 " Requires running install script
 Plugin 'rdnetto/YCM-Generator'
-Plugin 'vim-syntastic/syntastic'
+" Plugin 'vim-syntastic/syntastic'
+Plugin 'dense-analysis/ale'
 Plugin 'nvie/vim-flake8'
 Plugin 'jnurmine/Zenburn'
 Plugin 'vim-airline/vim-airline'
@@ -39,9 +42,9 @@ Plugin 'mrk21/yaml-vim'
 Plugin 'vim-python/python-syntax'
 Plugin 'godlygeek/tabular'
 Plugin 'davidhalter/jedi-vim'
-Plugin 'vim-scripts/OmniCppComplete'
+"Plugin 'vim-scripts/OmniCppComplete'
 Plugin 'tell-k/vim-autopep8'
-
+Plugin 'ajh17/vimcompletesme'
 call vundle#end()
 
 " community/bandit
@@ -63,8 +66,8 @@ set t_Co=256
 syntax on
 set splitbelow
 set splitright
-
-
+set autoread  " Auto reload file after external command
+set hlsearch
 
 
 let g:NERDTreeWinSize=40
@@ -72,6 +75,11 @@ let g:Tlist_WinWidth=40
 "set showtabline=2
 " set timeoutlen=1000 ttimeoutlen=10
 
+set wildmenu " Visual autocomplete for command menu
+set tags=tags; " Find tags recursively
+
+" Make completion menu behave like an IDE
+set completeopt=longest,menuone,preview
 
 colorscheme onedark
 
@@ -104,7 +112,7 @@ let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
 "let g:ycm_key_list_select_completion = ['<tab>', '<Down>']
 "let g:ycm_key_list_previous_completion = ['<s-tab>', '<Up>']
-let g:ycm_global_ycm_extra_conf = "$HOME/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py"
+let g:ycm_global_ycm_extra_conf = "$HOME/.vim/.ycm_extra_conf.py"
 let python_highlight_all=1
 let g:python_highlight_builtins=1
 let g:python_highlight_string_format=1
@@ -114,6 +122,15 @@ let g:autopep8_disable_show_diff=1
 let no_flake8_maps = 1
 
 
+let g:ale_linters = {
+	\ 'python' : ['flake8'] ,
+	\ 'c' : ['gcc'] ,
+	\ 'cpp' : ['g++'] ,
+	\ }
+let g:ale_c_gcc_executable = '/usr/bin/gcc'
+let g:ale_c_gcc_options = '-Wall -std=c11'
+let g:ale_cpp_gcc_executable = '/usr/bin/g++'
+let g:ale_cpp_gcc_options = '-Wall -std=c11'
 " Maps
 
 
@@ -136,7 +153,8 @@ map <leader><tab> :bnext<cr>
 map <F6> :NERDTreeToggle<CR>
 noremap <leader>d :bp<cr>:bd #<cr>
 nmap <F7> :TagbarToggle<CR>
-
+" Redraw the screen and remove highlighting
+nnoremap <silent> <C-l> :nohl<CR><C-l>
 
 
 " AutoCmds
@@ -147,22 +165,22 @@ autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR>
 autocmd BufNewFile,BufRead *.py
 	\ set colorcolumn=80 |
 	\ set expandtab |
-	\ set autoindent |
+	\ set autoindent |  " Copy indentation from previous line
 	\ set fileformat=unix |
 	\ let g:ycm_python_binary_path = 'python' |
-	\ let g:syntastic_python_checkers = ['flake8'] |
+	" \ let g:syntastic_python_checkers = ['flake8'] |
 	\ nnoremap <leader>p :Autopep8<cr> |
 	\ nnoremap <buffer> <F5> :exec '!ipython -i' shellescape(@%, 1)<cr> |
 	\ nnoremap <buffer> <F4> :exec '!ipython -d' shellescape(@%, 1)<cr>
 
-"autocmd filetype cpp nnoremap <F4> :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
-autocmd BufNewFile,BufRead *.cpp,*.cxx,*.c,*.h,*.hpp,*.hxx,*.asm
-	\ set expandtab |
-	\ set autoindent |
-	\ set colorcolumn=110 |
-	\ let &path.="src/include,/usr/include/AL,/usr/include/linux" |
-	\ nnoremap <buffer> <F5> :AsyncRun make -j8<cr> |
-	\ nnoremap <buffer> <F4> :AsyncRun make clean && make -j8<cr>
+autocmd filetype cpp nnoremap <F4> :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+ autocmd BufNewFile,BufRead *.cpp,*.cxx,*.c,*.h,*.hpp,*.hxx,*.asm
+ 	\ set expandtab |
+ 	\ set autoindent | " Copy indentation from previous line
+ 	\ set colorcolumn=110 |
+ 	\ let &path.="src/include,/usr/include/AL,/usr/include/linux" . ',/lib/modules/' . system('/usr/bin/uname -r') . '/build/include' |
+ 	\ nnoremap <buffer> <F5> :AsyncRun make -j8<cr> |
+ 	\ nnoremap <buffer> <F4> :AsyncRun make clean && make -j8<cr>
 
 " markdown
 autocmd BufNewFile,BufRead *.md
@@ -173,7 +191,6 @@ autocmd BufNewFile,BufRead *.md
 "https://lornajane.net/posts/2018/vim-settings-for-working-with-yaml
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-
 
 
 " Functions
@@ -208,6 +225,8 @@ endfunction
 
 call airline#parts#define_function('asyncrun_status', 'Get_asyncrun_running')
 let g:airline_section_x = airline#section#create(['asyncrun_status'])
+
+
 
 
 " useful things for later

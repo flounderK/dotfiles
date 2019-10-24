@@ -37,6 +37,10 @@ plugins=(
   python
   rsync
   rand-quote
+  systemd
+  man
+  screen
+  pyenv
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -45,6 +49,8 @@ BROWSER=/usr/bin/chromium
 EDITOR=/usr/bin/vim
 # export MANPATH="/usr/local/man:$MANPATH"
 # export LANG=en_US.UTF-8
+#
+function b64d () {base64 -d <(echo "$@")}
 function mimeopen () {nohup mimeopen "$@" &>/dev/null & disown}
 function libreoffice () {nohup libreoffice "$@" &>/dev/null & disown}
 function firefox () {nohup firefox "$@" &>/dev/null & disown}
