@@ -29,7 +29,7 @@ hide_edge_borders both
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec termite 
+bindsym $mod+Return exec termite
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -174,7 +174,7 @@ bar {
 	position top
 	status_command i3status
 	font pango:monospace 9
-        
+
 	colors {
 		background $bg-color
 	    	separator #757575
@@ -218,6 +218,11 @@ bindsym $mod+F5 exec mocp --toggle-pause
 bindsym $mod+F6 exec mocp --stop
 bindsym $mod+F7 exec mocp --previous
 bindsym $mod+F8 exec mocp --next
+
+# Brightness shortcuts
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+
 
 # App shortcuts
 bindsym $mod+w exec "/usr/bin/chromium"
