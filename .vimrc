@@ -164,6 +164,9 @@ autocmd BufWritePre * %s/\s\+$//e
 autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR>
 autocmd BufNewFile,BufRead *.py
 	\ set colorcolumn=80 |
+	\ set shiftwidth=4 |
+	\ set textwidth=120 |
+	\ set softtabstop=4 |
 	\ set expandtab |
 	\ set autoindent |  " Copy indentation from previous line
 	\ set fileformat=unix |
