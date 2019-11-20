@@ -82,6 +82,7 @@ alias ssh='TERM=linux ssh'
 alias sshpass='TERM=linux sshpass'
 alias ansible-vault="EDITOR=$EDITOR ansible-vault"
 alias gb='git branch -a | cat -'
+alias gbv='git branch -vv'
 alias calcurse='calcurse -D ~/.config/calcurse'
 cowtune 2>/dev/null
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
