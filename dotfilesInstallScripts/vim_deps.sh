@@ -1,16 +1,16 @@
 #!/bin/bash
 
 if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root" 
+   echo "This script must be run as root"
    exit 1
-fi 
+fi
 
 version=$(uname -v)
 debbased=$(echo $version | grep -Pio "(debian|ubuntu)")
 if [[ ! -z "$debbased" ]]
 then
-	apt update 
-	apt install fonts-powerline
+	apt update
+	apt install fonts-powerline exuberant-ctags
 	exit 0
 fi
 
