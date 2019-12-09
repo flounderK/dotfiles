@@ -50,6 +50,9 @@ EDITOR=/usr/bin/vim
 # export MANPATH="/usr/local/man:$MANPATH"
 # export LANG=en_US.UTF-8
 #
+
+function findpacbin () {pacman -Ql "$@" | cut -d ' ' -f2- | grep -v "/$" | grep --color=never -P "/(bin|sbin)/"}
+
 function b64d () {base64 -d <(echo "$@")}
 function mimeopen () {nohup mimeopen "$@" &>/dev/null & disown}
 function libreoffice () {nohup libreoffice "$@" &>/dev/null & disown}
