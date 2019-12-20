@@ -29,7 +29,8 @@ hide_edge_borders both
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec termite
+# echo "TERMINAL=/usr/bin/termite" >> /etc/environment
+bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -232,6 +233,10 @@ bindsym $mod+n exec "/usr/bin/thunar"
 bindsym $mod+m exec "/usr/local/bin/switch-audio-port"
 
 # Autostart apps
+assign [class="termite"] 1
+for_window [class="Spotify"] move to workspace 3
+for_window [class="Slack"] move to workspace 4
+exec --no-startup-id /usr/bin/slack
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id /usr/bin/compton -cC --config ~/.config/compton.conf
 exec --no-startup-id nm-applet
