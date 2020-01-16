@@ -188,7 +188,9 @@ autocmd filetype cpp nnoremap <F4> :w <bar> exec '!g++ '.shellescape('%').' -o '
 " markdown
 autocmd BufNewFile,BufRead *.md
 	\ map <leader>c :w! \| :AsyncRun pandoc --pdf-engine=xelatex -s -o '%:r.pdf' <c-r>%<CR> |
-	\ map <leader>m :w! \| :AsyncRun mimeopen '%:r.pdf'<CR>
+	\ map <leader>m :w! \| :AsyncRun mimeopen '%:r.pdf'<CR> |
+	\ set autoindent |
+	\ set expandtab
 
 "YAML file config from
 "https://lornajane.net/posts/2018/vim-settings-for-working-with-yaml
