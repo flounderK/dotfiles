@@ -58,6 +58,7 @@ function mimeopen () {nohup mimeopen "$@" &>/dev/null & disown}
 function libreoffice () {nohup libreoffice "$@" &>/dev/null & disown}
 function firefox () {nohup firefox "$@" &>/dev/null & disown}
 function ida () {nohup ida "$@" &>/dev/null & disown}
+function newpy () {echo "#!/usr/bin/python3" > "$@" && chmod +x "$@"}
 alias ls='ls --color=auto'
 alias ll='ls -Ahl --color=auto --group-directories-first'
 alias la='cat ~/.zshrc | grep -P -o "(?<=^alias\ ).+"'
