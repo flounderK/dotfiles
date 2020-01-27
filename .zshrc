@@ -83,7 +83,7 @@ function extract () {
         fi
 
         case $i in
-            *.t@(gz|lz|xz|b@(2|z?(2))|a@(z|r?(.@(Z|bz?(2)|gz|lzma|xz)))))
+            *.t*(gz|lz|xz|b*(2|z?(2))|a*(z|r?(.*(Z|bz?(2)|gz|lzma|xz)))))
                    c=(bsdtar xvf);;
             *.7z)  c=(7z x);;
             *.Z)   c=(uncompress);;
