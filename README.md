@@ -14,6 +14,5 @@ for zsh:
 
 for vim:
 `sudo ./dotfilesInstallScripts/vim_deps.sh`
-`python3 update_dotfiles.py --install -f .vimrc`
-`./dotfilesInstallScripts/vimsetup.sh`
-
+`./update_dotfiles.py --install -f .vimrc`
+`vim`
