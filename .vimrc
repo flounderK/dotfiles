@@ -1,3 +1,18 @@
+
+" Based off of vim-bootstrap's autoinstall
+let vundle_exists=expand('~/.vim/bundle/Vundle.vim')
+if !isdirectory(vundle_exists)
+	if !executable("git")
+		echoerr "please install git so that plugins can be installed"
+		execute "q!"
+	endif
+	echo "installing Vundle.vim"
+	echo ""
+	silent exec "!\git clone https://github.com/VundleVim/Vundle.vim.git " . vundle_exists
+	autocmd VimEnter * PluginInstall
+endif
+
+
 scriptencoding utf-8
 set encoding=utf-8
 set fileencoding=utf-8
