@@ -176,14 +176,21 @@ autocmd BufNewFile,BufRead *.py
 	\ nnoremap <buffer> <F5> :exec '!ipython -i' shellescape(@%, 1)<cr> |
 	\ nnoremap <buffer> <F4> :exec '!ipython -d' shellescape(@%, 1)<cr>
 
+autocmd filetype haskell
+	\ set shiftwidth=4 |
+	\ set softtabstop=4 |
+	\ set expandtab |
+	\ set autoindent
+
+
 autocmd filetype cpp nnoremap <F4> :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
- autocmd BufNewFile,BufRead *.cpp,*.cxx,*.c,*.h,*.hpp,*.hxx,*.asm
- 	\ set expandtab |
- 	\ set autoindent | " Copy indentation from previous line
- 	\ set colorcolumn=110 |
- 	\ let &path.="src/include,/usr/include/AL,/usr/include/linux" . ',/lib/modules/' . system('/usr/bin/uname -r') . '/build/include' |
- 	\ nnoremap <buffer> <F5> :AsyncRun make -j8<cr> |
- 	\ nnoremap <buffer> <F4> :AsyncRun make clean && make -j8<cr>
+autocmd BufNewFile,BufRead *.cpp,*.cxx,*.c,*.h,*.hpp,*.hxx
+	\ set expandtab |
+	\ set autoindent | " Copy indentation from previous line
+	\ set colorcolumn=110 |
+	\ nnoremap <buffer> <F5> :AsyncRun make -j8<cr> |
+	\ nnoremap <buffer> <F4> :AsyncRun make clean && make -j8<cr> |
+	\ let &path.="src/include,/usr/include/AL,/usr/include/linux" . ',/lib/modules/' . system('/usr/bin/uname -r') . '/build/include'
 
 " markdown
 autocmd BufNewFile,BufRead *.md
