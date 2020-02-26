@@ -173,6 +173,10 @@ nmap <F7> :TagbarToggle<CR>
 nnoremap <silent> <leader><C-l> :nohl<CR><C-l>
 
 
+" Fix accidental uppercaseing
+" again, from vim-boostrap
+cnoreabbrev Q! q!
+
 " AutoCmds
 
 
@@ -231,6 +235,30 @@ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 
 " Functions
+" vim-airline
+" again, taken from boostrap-vim
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+if !exists('g:airline_powerline_fonts')
+  let g:airline#extensions#tabline#left_sep = ' '
+  let g:airline#extensions#tabline#left_alt_sep = '|'
+  let g:airline_left_sep          = '▶'
+  let g:airline_left_alt_sep      = '»'
+  let g:airline_right_sep         = '◀'
+  let g:airline_right_alt_sep     = '«'
+  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+  let g:airline#extensions#readonly#symbol   = '⊘'
+  let g:airline#extensions#linecolumn#prefix = '¶'
+  let g:airline#extensions#paste#symbol      = 'ρ'
+  let g:airline_symbols.linenr    = '␊'
+  let g:airline_symbols.branch    = '⎇'
+  let g:airline_symbols.paste     = 'ρ'
+  let g:airline_symbols.paste     = 'Þ'
+  let g:airline_symbols.paste     = '∥'
+  let g:airline_symbols.whitespace = 'Ξ'
+endif
 
 
 " Borrowing airline's example
