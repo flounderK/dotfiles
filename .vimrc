@@ -99,6 +99,7 @@ set completeopt=longest,menuone,preview
 colorscheme onedark
 
 set nu
+set ruler
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -200,6 +201,13 @@ autocmd filetype haskell
 
 "autocmd filetype cpp nnoremap <F4> :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
 "BufNewFile,BufRead *.cpp,*.cxx,*.c,*.h,*.hpp,*.hxx
+
+augroup vimrc-make-cmake
+	autocmd!
+	autocmd filetype make setlocal noexpandtab
+	autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
+augroup END
+
 
 augroup CBuild
 	autocmd filetype c,cpp set expandtab
