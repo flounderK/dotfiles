@@ -162,19 +162,19 @@ nnoremap <silent> <leader><C-l> :nohl<CR><C-l>
 
 autocmd BufWritePre * %s/\s\+$//e
 autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR>
-autocmd BufNewFile,BufRead *.py
-	\ set colorcolumn=80 |
-	\ set shiftwidth=4 |
-	\ set textwidth=120 |
-	\ set softtabstop=4 |
-	\ set expandtab |
-	\ set autoindent |  " Copy indentation from previous line
-	\ set fileformat=unix |
-	\ let g:ycm_python_binary_path = 'python' |
-	" \ let g:syntastic_python_checkers = ['flake8'] |
-	\ nnoremap <leader>p :Autopep8<cr> |
-	\ nnoremap <buffer> <F5> :exec '!ipython -i' shellescape(@%, 1)<cr> |
-	\ nnoremap <buffer> <F4> :exec '!ipython -d' shellescape(@%, 1)<cr>
+" autocmd BufNewFile,BufRead *.py
+	autocmd FileType python set colorcolumn=80
+	autocmd FileType python set shiftwidth=4
+	autocmd FileType python set textwidth=120
+	autocmd FileType python set softtabstop=4
+	autocmd FileType python set expandtab
+	autocmd FileType python set autoindent   " Copy indentation from previous line
+	autocmd FileType python set fileformat=unix
+	autocmd FileType python let g:ycm_python_binary_path = 'python'
+	" autocmd FileType python \ let g:syntastic_python_checkers = ['flake8'] |
+	autocmd FileType python nnoremap <leader>p :Autopep8<cr>
+	autocmd FileType python nnoremap <buffer> <F5> :exec '!ipython -i' shellescape(@%, 1)<cr>
+	autocmd FileType python nnoremap <buffer> <F4> :exec '!ipython -d' shellescape(@%, 1)<cr>
 
 autocmd filetype haskell
 	\ set shiftwidth=4 |
@@ -183,15 +183,17 @@ autocmd filetype haskell
 	\ set autoindent
 
 
-autocmd filetype cpp nnoremap <F4> :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
-autocmd BufNewFile,BufRead *.cpp,*.cxx,*.c,*.h,*.hpp,*.hxx
-	\ set expandtab |
-	\ set autoindent | " Copy indentation from previous line
-	\ set colorcolumn=110 |
-	\ nnoremap <buffer> <F5> :AsyncRun make -j8<cr> |
-	\ nnoremap <buffer> <F4> :AsyncRun make clean && make -j8<cr> |
-	\ let &path.="src/include,/usr/include/AL,/usr/include/linux" . ',/lib/modules/' . system('/usr/bin/uname -r') . '/build/include'
+"autocmd filetype cpp nnoremap <F4> :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+"BufNewFile,BufRead *.cpp,*.cxx,*.c,*.h,*.hpp,*.hxx
 
+augroup CBuild
+	autocmd filetype c,cpp set expandtab
+	autocmd filetype c,cpp set autoindent " Copy indentation from previous line
+	autocmd filetype c,cpp set colorcolumn=110
+	autocmd filetype c,cpp nnoremap <buffer> <F5> :AsyncRun make -j8<cr>
+	autocmd filetype c,cpp nnoremap <buffer> <F4> :AsyncRun make clean && make -j8<cr>
+	autocmd filetype c,cpp let &path.="src/include,/usr/include/AL,/usr/include/linux" . ',/lib/modules/' . system('/usr/bin/uname -r') . '/build/include'
+augroup END
 " markdown
 autocmd BufNewFile,BufRead *.md
 	\ map <leader>c :w! \| :AsyncRun pandoc --pdf-engine=xelatex -s -o '%:r.pdf' <c-r>%<CR> |
@@ -201,7 +203,7 @@ autocmd BufNewFile,BufRead *.md
 
 "YAML file config from
 "https://lornajane.net/posts/2018/vim-settings-for-working-with-yaml
-au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml
+au BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 
