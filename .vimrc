@@ -32,9 +32,9 @@ Plugin 'vim-jp/vital.vim'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 " Requires running install script
-Plugin 'rdnetto/YCM-Generator'
+" Plugin 'rdnetto/YCM-Generator'
 " Plugin 'vim-syntastic/syntastic'
 Plugin 'dense-analysis/ale'
 Plugin 'nvie/vim-flake8'
@@ -115,7 +115,7 @@ let g:ycm_always_populate_location_list = 1 " default 0
 let g:ycm_open_loclist_on_ycm_diags = 1
 
 let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
-let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
+" let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
 let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language's keyword
 let g:ycm_complete_in_comments = 1 " Completion in comments
 let g:ycm_complete_in_strings = 1 " Completion in string
@@ -137,6 +137,9 @@ let g:autopep8_disable_show_diff=1
 "flake8's map is greedy, turn it off
 let no_flake8_maps = 1
 
+" Removes lag caused by listing argument signatures, but also makes life less
+" exciting
+let g:jedi#show_call_signatures = "0"
 
 let g:ale_linters = {
 	\ 'python' : ['flake8'] ,
@@ -161,6 +164,11 @@ nnoremap <Leader>. :CtrlPTag<cr>
 
 "spell check.
 map <leader>o :setlocal spell! spelllang=en_us<CR>
+" https://vi.stackexchange.com/questions/68/autocorrect-spelling-mistakes
+nnoremap <leader>fs <C-G>u<Esc>[s1z=`]a<C-G>u
+" nnoremap <C-K> <Esc>[sve<C-G>
+" inoremap <C-K> <Esc>[sve<C-G>
+" snoremap <C-K> <Esc>b[sviw<C-G>
 
 map <F3> :YcmCompleter GoTo<CR>
 "map <leader>g  : YcmCompleter GoToDefinitionElseDeclaration<CR>
@@ -185,7 +193,7 @@ autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR>
 " autocmd BufNewFile,BufRead *.py
 	autocmd FileType python set colorcolumn=80
 	autocmd FileType python set shiftwidth=4
-	autocmd FileType python set textwidth=120
+	" autocmd FileType python set textwidth=120
 	autocmd FileType python set softtabstop=4
 	autocmd FileType python set expandtab
 	autocmd FileType python set autoindent   " Copy indentation from previous line
