@@ -123,6 +123,12 @@ function todo () {
     fi
 }
 
+
+if [ -d "/opt/ghidra/support" ];then
+	export PATH="/opt/ghidra/support:$PATH"
+fi
+
+
 alias ls='ls --color=auto'
 alias ll='ls -Ahl --color=auto --group-directories-first'
 alias la='cat ~/.zshrc | grep -P -o "(?<=^alias\ ).+"'
@@ -152,6 +158,9 @@ alias ansible-vault="EDITOR=$EDITOR ansible-vault"
 alias gb='git branch -a | cat -'
 alias gbv='git branch -vv'
 alias calcurse='calcurse -D ~/.config/calcurse'
+alias glggv='git log --graph --full-history --all --color --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"'
+alias yeet='yay -Rsn'
 cowtune 2>/dev/null
+# command -v virtualenvwrapper.sh >/dev/null && source $(whereis virtualenvwrapper.sh | cut -f2- -d ' ')'
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 #export PATH="$PATH:$HOME/.rvm/bin"
