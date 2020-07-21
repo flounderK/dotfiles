@@ -43,8 +43,8 @@ def install_dotfiles(specified_files=None):
     dotfiles_repo_dir = os.path.abspath(os.path.dirname(__file__))
     offsets = get_file_offsets(dotfiles_repo_dir, specified_files)
     home = os.path.expanduser("~")
-    ignore_patterns = [r'\.idea', r'\.git/', 
-                       r'\.gitignore', "update_dotfiles\.py", 
+    ignore_patterns = [r'\.idea', r'\.git/',
+                       r'\.gitignore', "update_dotfiles\.py",
                        r'dotfilesInstallScripts',
                        r'README.md']
     for pat in ignore_patterns:
@@ -84,8 +84,8 @@ if args.install is True:
     exit(0)
 
 
-config_file_path = os.path.expanduser("~/.config/my-dotfiles-settings")
-# check for config file 
+config_file_path = os.path.expanduser(".config/my-dotfiles-settings")
+# check for config file
 if not os.path.exists(config_file_path):
     print('file ~/.config/my-dotfiles-settings does not exist. exiting')
     exit(1)
