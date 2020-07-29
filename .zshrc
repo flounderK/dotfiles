@@ -123,6 +123,10 @@ function todo () {
     fi
 }
 
+function getmaketargets () {
+	make -qp | awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | sort -u
+}
+
 
 if [ -d "/opt/ghidra/support" ];then
 	export PATH="/opt/ghidra/support:$PATH"
@@ -160,6 +164,7 @@ alias gbv='git branch -vv'
 alias calcurse='calcurse -D ~/.config/calcurse'
 alias glggv='git log --graph --full-history --all --color --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"'
 alias yeet='yay -Rsn'
+alias reload='source ~/.zshrc'
 cowtune 2>/dev/null
 # command -v virtualenvwrapper.sh >/dev/null && source $(whereis virtualenvwrapper.sh | cut -f2- -d ' ')'
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
