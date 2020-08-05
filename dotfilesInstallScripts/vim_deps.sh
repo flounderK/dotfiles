@@ -10,7 +10,7 @@ debbased=$(echo $version | grep -Pio "(debian|ubuntu)")
 if [[ ! -z "$debbased" ]]
 then
 	apt update
-	apt install fonts-powerline exuberant-ctags
+	apt install vim fonts-powerline exuberant-ctags
 	exit 0
 fi
 
