@@ -7,7 +7,8 @@ Also my script for quickly updating/installing my dotfiles on many machines.
 ## Usage:
 
 * Combined Using `setup.sh`
-    git clone this repository
+    
+    `git clone` this repository, then:
     
     ```bash
     cd dotfiles
