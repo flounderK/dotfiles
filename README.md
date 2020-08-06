@@ -6,9 +6,13 @@ Also my script for quickly updating/installing my dotfiles on many machines.
 
 ## Usage:
 
-* Combined
-
+* Combined Using `setup.sh`
+    git clone this repository
+    
     ```bash
+    cd dotfiles
+    git submodule init
+    git submodule update
     ./setup.sh [--offline] [--verbose]
     ```
 

@@ -183,7 +183,7 @@ setup_ohmyzsh() {
 		-c fsck.zeroPaddedFilemode=ignore \
 		-c fetch.fsck.zeroPaddedFilemode=ignore \
 		-c receive.fsck.zeroPaddedFilemode=ignore \
-		--depth=1 --quiet --branch "$BRANCH" "$REMOTE" "$ZSH_CLONE_DIR" > /dev/null && write ${BLUE}"Clone Successful"${RESET} || \
+		--depth=1 --quiet --branch "$BRANCH" "$REMOTE" "$ZSH_CLONE_DIR" > /dev/null && write ${MAGENTA}"Clone Successful"${RESET} || \
 		cd $ZSH_CLONE_DIR && git pull origin master --quiet && cd $SELF_PARENT || {
 		write ${BLUE}"git clone/pull of oh-my-zsh repo failed, trying with offline files."${RESET}
 		OFFLINE=yes
@@ -199,7 +199,7 @@ setup_ohmyzsh() {
 			exit 1
 		fi
 
-		write ${BLUE}"Using Offline Repository at: $OFFLINE_DIR" ${RESET}
+		write ${BLUE}"Using Offline Repository at: ${YELLOW}$OFFLINE_DIR" ${RESET}
 
 		if [ -d $ZSH ]; then
 			rm -r $ZSH
