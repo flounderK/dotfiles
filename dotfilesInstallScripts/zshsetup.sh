@@ -68,7 +68,7 @@ main() {
 			git clone --quiet https://github.com/zsh-users/zsh-autosuggestions.git $OHMYZSH_OFFLINE/zsh-autosuggestions &> $null && write ${MAGENTA}"Success. zsh-autosuggestions"${RESET}  || \
 			debug "2. git pull" ; cd $OHMYZSH_OFFLINE/zsh-autosuggestions && git pull origin master --quiet && cd $SELF_PARENT
 		} || { 
-			write $RED"Could not download/update offline files."
+			write $RED"Could not download/update offline files."$RESET
 			write $GREEN"Switching to offline files to setup oh-my-zsh."$RESET
 		}
 
