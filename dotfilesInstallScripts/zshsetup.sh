@@ -4,7 +4,7 @@
 #Defaults
 OFFLINE=no
 
-source ../libsh/std.sh
+source "$(dirname $(dirname $0))/libsh/std.sh"
 make_sh_macos_compatible
 
 #Setup Variables
