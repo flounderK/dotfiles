@@ -9,7 +9,7 @@ Also my script for quickly updating/installing my dotfiles on many machines.
 * Combined
 
     ```bash
-    ./setup.sh [--ofline][--verbose]
+    ./setup.sh [--offline] [--verbose]
     ```
 
     An optional _offline mode_ is included which provides the functionality to run the script on an 
