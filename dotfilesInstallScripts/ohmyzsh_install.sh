@@ -96,7 +96,7 @@ error() {
 
 verbose() {
     for i in $verbose $VERBOSE $v $V; do
-        if expr match $i 'yes' > /dev/null; then
+        if expr $i : 'yes' > /dev/null; then
             echo ${BOLD}"$(basename $0):${RESET}${YELLOW} Verbose --> "${BOLD}"$@"${RESET}
             return
         fi
@@ -105,7 +105,7 @@ verbose() {
 
 debug() {
     for i in $debug $DEBUG $d $D; do
-        if expr match $i 'yes' > /dev/null; then
+        if expr $i : 'yes' > /dev/null; then
             echo ${BOLD}"$(basename $0):${RESET}${CYAN} Debug   --> "${BOLD}"$@"${RESET}
             return
         fi
@@ -125,6 +125,30 @@ beginswith() { case $2 in "$1"*) true;; *) false;; esac; }
 checkresult() { if [ $? = 0 ]; then echo TRUE; else echo FALSE; fi; }
 
 exists() { if [ ! -z $1 ]; then true; else false; fi; }
+
+check_file() {
+	# Check file or directory existence. Writes to stderr if does not exist.
+	# Exits by default, but second argument can be passed to bypass exit.
+    #
+    # Args:
+    #   Position 1: File
+    #   Position 2: Exit Functionality. To Continue without exiting pass `continue` or `c`
+    #
+    # Returns:
+    #   Boolean
+    #
+	FILE=$1
+	EXIT=$2
+	if [ ! -e $FILE ]; then
+		error "Path Does Not Exist: $FILE"
+		case $EXIT in
+			exit|EXIT|E|e) exit 1 ;;
+			continue|CONTINUE|C|c) return 1 ;;
+			*) exit 1;;
+		esac
+	fi
+        return 0
+}
 
 
 setup_ohmyzsh() {
@@ -153,7 +177,6 @@ setup_ohmyzsh() {
 	elif [ "$OFFLINE" = no ]; then
 		ZSH_CLONE_DIR=$ZSH
 		write ${BLUE} "Cloning Oh My Zsh..."${RESET}
-
 	fi
 
 	git clone -c core.eol=lf -c core.autocrlf=false \
@@ -161,8 +184,8 @@ setup_ohmyzsh() {
 		-c fetch.fsck.zeroPaddedFilemode=ignore \
 		-c receive.fsck.zeroPaddedFilemode=ignore \
 		--depth=1 --quiet --branch "$BRANCH" "$REMOTE" "$ZSH_CLONE_DIR" > /dev/null && write ${BLUE}"Clone Successful"${RESET} || \
-		cd $ZSH_CLONE_DIR && git pull --quiet && cd $SELF_PARENT || {
-		error "git clone/pull of oh-my-zsh repo failed, trying with offline files."
+		cd $ZSH_CLONE_DIR && git pull origin master --quiet && cd $SELF_PARENT || {
+		write ${BLUE}"git clone/pull of oh-my-zsh repo failed, trying with offline files."${RESET}
 		OFFLINE=yes
 	}
 	cd $SELF_PARENT
@@ -172,8 +195,7 @@ setup_ohmyzsh() {
 		if [ ! -d $OFFLINE_DIR ]
 		then
 			error "Offline directory does not exist at $OFFLINE_DIR"
-			write ${YELLOW}"Try running the script with the `--offline` flag while connected to the internet.
-		doing so will download the required files."{$RESET}
+			write ${YELLOW}"Try running the script with the --offline flag while connected to the internet."{$RESET}
 			exit 1
 		fi
 

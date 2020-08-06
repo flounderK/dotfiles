@@ -14,7 +14,7 @@ then
 	apt update 
 	apt install zsh
 	exit 0
-else [[ "$debbased" = ""]]
+else
 	#echo Using Pacman.
 	pacman -S zsh
 fi
