@@ -25,30 +25,38 @@ main() {
 	param switch d $@
 
 	setup_color override
+	
+	echo 
+	verbose "**START zshsetup.sh**"
 
-	verbose "**START zshsetup.sh**\n"
-
+	
+	# Before additon of libsh I was using the variable $OFFLINE so the following is
+	# a compatability trick due to use of --offline creating the variable $offline instead of $OFFLINE. 
 	if expr "$offline" : 'yes' > /dev/null; then
 		OFFLINE=yes
 	fi
 
+	# Only output cloneing if verbose was passed
+	if ! exists $verbose; then
+		quiet='--quiet' 
+	fi
 
 	if expr "$OFFLINE" : 'no' > /dev/null
 	then
-		verbose "Set to Online Mode."
+		verbose "Checing Internet Connection."
 		if ping -c 1 1.1.1.1 &> /dev/null; then
 			verbose "Set to Online Mode."
 		else
-			verbose "Cannot ping 1.1.1.1. Check your internet connection"
+			verbose "Cannot Ping 1.1.1.1. Check Your Internet Connection"
+			exit 1
 		fi
 
 		curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh -s -- --unattended 
 		
-		check_file $ZSH_CUSTOM/plugins/zsh-syntax-highlighting || \
-		git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-
-		check_file $ZSH_CUSTOM/plugins/zsh-autosuggestions || \
-		git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+		for REPO in zsh-syntax-highlighting zsh-autosuggestions; do
+			check_file $ZSH_CUSTOM/plugins/$REPO c &> /dev/null || verbose "Cloning sh-users/$REPO"; \
+			git clone "$quiet" https://github.com/zsh-users/$REPO.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/$REPO 
+		done
 	fi
 
 	cd $SELF_PARENT
@@ -57,7 +65,7 @@ main() {
 	then
 		mkdir -p $OHMYZSH_OFFLINE > /dev/null
 		{
-			verbose "$(basename $0) - Set to Offline Mode."
+			verbose "Set to Offline Mode."
 
 			write $BLUE"Attempting to download/update offline files."$RESET
 			wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh --quiet -t 1 && mv install.sh $OHMYZSH_OFFLINE/ohmyzsh_install_orig.sh
@@ -99,6 +107,7 @@ main() {
 
 	fi
 
-	verbose "**FINISH zshsetup.sh**\n"
+	verbose "**FINISH zshsetup.sh**"
+	echo
 }
 main "$@"
