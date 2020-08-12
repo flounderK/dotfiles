@@ -8,6 +8,12 @@
 OFFLINE=no
 VERBOSE=no
 
+if [ ! -x libsh/std.sh ];then
+	echo "setup.sh: Error: libsh/std.sh Does Not Exist or is Not Executable."
+	echo "setup.sh: Try running 'git submodule init && git submodule update'." 
+	exit 1
+fi
+
 source libsh/std.sh
 make_sh_macos_compatible
 
