@@ -43,10 +43,11 @@ def install_dotfiles(specified_files=None):
     dotfiles_repo_dir = os.path.abspath(os.path.dirname(__file__))
     offsets = get_file_offsets(dotfiles_repo_dir, specified_files)
     home = os.path.expanduser("~")
-    ignore_patterns = [r'\.idea', r'\.git/', 
-                       r'\.gitignore', "update_dotfiles\.py", 
+    ignore_patterns = [r'\.idea', r'\.git/',
+                       r'\.gitignore', r"update_dotfiles\.py",
                        r'dotfilesInstallScripts',
-                       r'README.md']
+                       r'README.md', r"ohmyzsh_offline",
+                       r"vim_offline"]
     for pat in ignore_patterns:
         offsets = [s for s, i in [(m, re.search(pat, m)) for m in offsets] if i is None]
 
@@ -85,7 +86,7 @@ if args.install is True:
 
 
 config_file_path = os.path.expanduser("~/.config/my-dotfiles-settings")
-# check for config file 
+# check for config file
 if not os.path.exists(config_file_path):
     print('file ~/.config/my-dotfiles-settings does not exist. exiting')
     exit(1)

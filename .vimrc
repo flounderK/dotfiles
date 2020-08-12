@@ -60,6 +60,8 @@ Plugin 'davidhalter/jedi-vim'
 "Plugin 'vim-scripts/OmniCppComplete'
 Plugin 'tell-k/vim-autopep8'
 Plugin 'ajh17/vimcompletesme'
+Plugin 'PProvost/vim-ps1'
+Plugin 'plasticboy/vim-markdown'
 call vundle#end()
 
 " community/bandit
