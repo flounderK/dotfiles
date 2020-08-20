@@ -127,6 +127,11 @@ function getmaketargets () {
 	make -qp | awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | sort -u
 }
 
+function getzshfunctionnames () {
+	# should be obvious, but only works for zsh
+	functions | grep -Po --color=never '^[a-zA-Z]+(?= \(\))'
+}
+
 
 if [ -d "/opt/ghidra/support" ];then
 	export PATH="/opt/ghidra/support:$PATH"
