@@ -124,12 +124,16 @@ function todo () {
 }
 
 function getmaketargets () {
-	make -qp | awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | sort -u
+	make -q -p -f /dev/null 2>/dev/null | awk -F':' '/^[.a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | sort | uniq
 }
 
 function getzshfunctionnames () {
 	# should be obvious, but only works for zsh
 	functions | grep -Po --color=never '^[a-zA-Z]+(?= \(\))'
+}
+
+function cctaggen () {
+	find . -name '*.h' -or -iname '*.c' -or -iname '*.cxx' -or -iname '*.cpp' | ctags -L -
 }
 
 
