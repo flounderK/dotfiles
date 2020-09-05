@@ -102,7 +102,11 @@ set tags=tags; " Find tags recursively
 " Make completion menu behave like an IDE
 set completeopt=longest,menuone,preview
 
-colorscheme onedark
+if (match(join(getcompletion('', 'color'), '\|'), 'onedark') > -1)
+	colorscheme onedark
+else
+	colorscheme elflord
+endif
 
 set nu
 set ruler
