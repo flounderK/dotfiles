@@ -24,16 +24,16 @@ plugins=(
   colorize
   colored-man-pages
   cp
-  tmux
-  tmuxinator
+  # tmux
+  # tmuxinator
   repo
   pip
   vundle
-  battery
+  # battery
   command-not-found
   zsh-syntax-highlighting
   zsh-autosuggestions
-  nmap
+  # nmap
   python
   rsync
   rand-quote
@@ -102,26 +102,32 @@ function extract () {
     done
     return "$e"
 }
-function todo () {
-    if [[ ! -f $HOME/.todo ]]; then
-        touch "$HOME/.todo"
-    fi
 
-    if ! (($#)); then
-        cat "$HOME/.todo"
-    elif [[ "$1" == "-l" ]]; then
-        nl -b a "$HOME/.todo"
-    elif [[ "$1" == "-c" ]]; then
-        > $HOME/.todo
-    elif [[ "$1" == "-r" ]]; then
-        nl -b a "$HOME/.todo"
-        eval printf %.0s- '{1..'"${COLUMNS:-$(tput cols)}"\}
-        read "number?Type a number to remove: "
-        sed -i ${number}d $HOME/.todo "$HOME/.todo"
-    else
-        printf "%s\n" "$*" >> "$HOME/.todo"
-    fi
+function findfileextensions () {
+	find $PWD -path '**test**' -prune -false -o -name '*.*' | grep --color=never -Po '(?<=\.)[^/.]+$' | sort | uniq
 }
+
+# this doesnt work on zsh
+# function todo () {
+#     if [[ ! -f $HOME/.todo ]]; then
+#         touch "$HOME/.todo"
+#     fi
+#
+#     if ! (($#)); then
+#         cat "$HOME/.todo"
+#     elif [[ "$1" == "-l" ]]; then
+#         nl -b a "$HOME/.todo"
+#     elif [[ "$1" == "-c" ]]; then
+#         > $HOME/.todo
+#     elif [[ "$1" == "-r" ]]; then
+#         nl -b a "$HOME/.todo"
+#         eval printf %.0s- '{1..'"${COLUMNS:-$(tput cols)}"\}
+#         read "number?Type a number to remove: "
+#         sed -i ${number}d $HOME/.todo "$HOME/.todo"
+#     else
+#         printf "%s\n" "$*" >> "$HOME/.todo"
+#     fi
+# }
 
 function getmaketargets () {
 	make -q -p -f /dev/null 2>/dev/null | awk -F':' '/^[.a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | sort | uniq
@@ -132,9 +138,6 @@ function getzshfunctionnames () {
 	functions | grep -Po --color=never '^[a-zA-Z]+(?= \(\))'
 }
 
-function cctaggen () {
-	find . -name '*.h' -or -iname '*.c' -or -iname '*.cxx' -or -iname '*.cpp' | ctags -L -
-}
 
 
 if [ -d "/opt/ghidra/support" ];then
@@ -142,21 +145,21 @@ if [ -d "/opt/ghidra/support" ];then
 fi
 
 
-alias ls='ls --color=auto'
 alias ll='ls -Ahl --color=auto --group-directories-first'
 alias la='cat ~/.zshrc | grep -P -o "(?<=^alias\ ).+"'
 alias ls='ls --color=auto'
 alias eb='vim ~/.bashrc'
 alias pacrepo='sudo reflector -l 20 -f 10 --save /etc/pacman.d/mirrorlist'
 alias pacu='sudo pacman -Syu --noconfirm'
-alias se='ls /usr/bin /bin /sbin | sort | uniq | grep -i'
+#alias se='ls /usr/bin /bin /sbin | sort | uniq | grep -i'
+alias se='ls -1 $(echo $PATH | tr ":" "\n") | grep -vP "(^|:)$" | sort | uniq | grep -i'
 alias calc='gnome-calculator &>/dev/null & disown'
 alias steam='steam &>/dev/null & disown'
 alias disks='ls -Ahl --color=auto /dev/disks/by-label/'
 alias ev='vim ~/.vimrc'
 alias show-tree='systemd-cgls / pstree'
 alias ez='vim ~/.zshrc'
-alias pwsh='env TERM=xterm pwsh'
+# alias pwsh='env TERM=xterm pwsh'
 alias rake='noglob rake'
 alias meow='lolcat'
 command -v fortune >/dev/null && command -v cowthink >/dev/null && alias cowtune='fortune -e | cowthink -n'
@@ -174,6 +177,8 @@ alias calcurse='calcurse -D ~/.config/calcurse'
 alias glggv='git log --graph --full-history --all --color --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"'
 alias yeet='yay -Rsn'
 alias reload='source ~/.zshrc'
+command -v pypy3 >/dev/null && alias ipypy3='pypy3 -mIPython'
+command -v pypy3 >/dev/null && alias pypy3pip='pypy3 -mpip'
 cowtune 2>/dev/null
 # command -v virtualenvwrapper.sh >/dev/null && source $(whereis virtualenvwrapper.sh | cut -f2- -d ' ')'
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
