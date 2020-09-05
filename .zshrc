@@ -138,6 +138,10 @@ function getzshfunctionnames () {
 	functions | grep -Po --color=never '^[a-zA-Z]+(?= \(\))'
 }
 
+function gencppctags () {
+	ctags -R --c++-kinds=+p --fields=+iaS --extras=+q .
+}
+
 
 
 if [ -d "/opt/ghidra/support" ];then

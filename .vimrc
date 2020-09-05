@@ -1,16 +1,19 @@
 
-" Based off of vim-bootstrap's autoinstall
-let vundle_exists=expand('~/.vim/bundle/Vundle.vim')
-if !isdirectory(vundle_exists)
-	if !executable("git")
-		echoerr "please install git so that plugins can be installed"
-		execute "q!"
+
+function! Vundleinstall()
+	" Based off of vim-bootstrap's autoinstall
+	let vundle_exists=expand('~/.vim/bundle/Vundle.vim')
+	if !isdirectory(vundle_exists)
+		if !executable("git")
+			echoerr "please install git so that plugins can be installed"
+			execute "q!"
+		endif
+		echo "installing Vundle.vim"
+		echo ""
+		silent exec "!\git clone https://github.com/VundleVim/Vundle.vim.git " . vundle_exists
+		autocmd VimEnter * PluginInstall
 	endif
-	echo "installing Vundle.vim"
-	echo ""
-	silent exec "!\git clone https://github.com/VundleVim/Vundle.vim.git " . vundle_exists
-	autocmd VimEnter * PluginInstall
-endif
+endfunction
 
 
 scriptencoding utf-8
@@ -60,6 +63,7 @@ Plugin 'davidhalter/jedi-vim'
 "Plugin 'vim-scripts/OmniCppComplete'
 Plugin 'tell-k/vim-autopep8'
 Plugin 'ajh17/vimcompletesme'
+Plugin 'PProvost/vim-ps1'
 call vundle#end()
 
 " community/bandit
@@ -307,5 +311,6 @@ let g:airline_section_x = airline#section#create(['asyncrun_status'])
 " :h syn
 " :h mysyntaxfile-add
 " hi def link
+" ma
 " C-[ and C-t with ctags
 "
