@@ -27,46 +27,48 @@ set noerrorbells                " Disable error bell
 set showcmd
 set nocompatible
 filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+if (exists(':Plugin') > -1)
+	set rtp+=~/.vim/bundle/Vundle.vim
+	call vundle#begin()
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'vim-jp/vital.vim'
-Plugin 'vim-scripts/indentpython.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'vim-scripts/cscope.vim'
-Plugin 'vim-scripts/a.vim'
-" Plugin 'Valloric/YouCompleteMe'
-" Requires running install script
-" Plugin 'rdnetto/YCM-Generator'
-" Plugin 'vim-syntastic/syntastic'
-Plugin 'dense-analysis/ale'
-Plugin 'nvie/vim-flake8'
-Plugin 'jnurmine/Zenburn'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-" community/awesome-terminal-fonts
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'joshdick/onedark.vim'
-" requires copying files (see install section)
-Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'honza/vim-snippets'
-Plugin 'SirVer/ultisnips'
-Plugin 'skywind3000/asyncrun.vim'
-Plugin 'majutsushi/tagbar'
-" extra/ctags
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'mrk21/yaml-vim'
-Plugin 'vim-python/python-syntax'
-Plugin 'godlygeek/tabular'
-Plugin 'davidhalter/jedi-vim'
-"Plugin 'vim-scripts/OmniCppComplete'
-Plugin 'tell-k/vim-autopep8'
-Plugin 'ajh17/vimcompletesme'
-Plugin 'PProvost/vim-ps1'
-call vundle#end()
+	Plugin 'VundleVim/Vundle.vim'
+	Plugin 'vim-jp/vital.vim'
+	Plugin 'vim-scripts/indentpython.vim'
+	Plugin 'tpope/vim-fugitive'
+	Plugin 'airblade/vim-gitgutter'
+	Plugin 'vim-scripts/cscope.vim'
+	Plugin 'vim-scripts/a.vim'
+	" Plugin 'Valloric/YouCompleteMe'
+	" Requires running install script
+	" Plugin 'rdnetto/YCM-Generator'
+	" Plugin 'vim-syntastic/syntastic'
+	Plugin 'dense-analysis/ale'
+	Plugin 'nvie/vim-flake8'
+	Plugin 'jnurmine/Zenburn'
+	Plugin 'vim-airline/vim-airline'
+	Plugin 'vim-airline/vim-airline-themes'
+	" community/awesome-terminal-fonts
+	Plugin 'altercation/vim-colors-solarized'
+	Plugin 'joshdick/onedark.vim'
+	" requires copying files (see install section)
+	Plugin 'scrooloose/nerdtree'
+	Plugin 'jistr/vim-nerdtree-tabs'
+	Plugin 'honza/vim-snippets'
+	Plugin 'SirVer/ultisnips'
+	Plugin 'skywind3000/asyncrun.vim'
+	Plugin 'majutsushi/tagbar'
+	" extra/ctags
+	Plugin 'ctrlpvim/ctrlp.vim'
+	Plugin 'mrk21/yaml-vim'
+	Plugin 'vim-python/python-syntax'
+	Plugin 'godlygeek/tabular'
+	Plugin 'davidhalter/jedi-vim'
+	"Plugin 'vim-scripts/OmniCppComplete'
+	Plugin 'tell-k/vim-autopep8'
+	Plugin 'ajh17/vimcompletesme'
+	Plugin 'PProvost/vim-ps1'
+	call vundle#end()
+endif
 
 " community/bandit
 
