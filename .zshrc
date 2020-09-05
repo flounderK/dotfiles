@@ -142,6 +142,14 @@ function gencppctags () {
 	ctags -R --c++-kinds=+p --fields=+iaS --extras=+q .
 }
 
+function build_cscope_db () {
+	local PROJDIR=$PWD
+	cd /
+	find $PROJDIR -regextype posix-egrep -iregex '.+\.(asm|S|h|c(c|pp|xx)*)' -type f > $PROJDIR/cscope.files
+	cd $PROJDIR
+	cscope -Rbkq
+}
+
 
 
 if [ -d "/opt/ghidra/support" ];then
