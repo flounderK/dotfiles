@@ -150,7 +150,9 @@ function build_cscope_db () {
 	cscope -Rbkq
 }
 
-
+function lddlibs () {
+	ldd "$1" | grep --color=never -Po '[^ \t]+(?= \()'
+}
 
 if [ -d "/opt/ghidra/support" ];then
 	export PATH="/opt/ghidra/support:$PATH"
