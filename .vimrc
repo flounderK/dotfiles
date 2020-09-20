@@ -19,7 +19,7 @@ endfunction
 scriptencoding utf-8
 set encoding=utf-8
 set fileencoding=utf-8
-set fileencodings=ucs-bom,uft8,prc
+set fileencodings=utf-8,ucs-bom,uft8,prc
 set ttyfast
 " Disable bell
 set visualbell                  " Disable visual bell
@@ -243,6 +243,7 @@ augroup CBuild
 augroup END
 " markdown
 autocmd BufNewFile,BufRead *.md
+	\ set fileencoding=utf-8 |
 	\ map <leader>c :w! \| :AsyncRun pandoc --pdf-engine=xelatex -s -o '%:r.pdf' <c-r>%<CR> |
 	\ map <leader>m :w! \| :AsyncRun mimeopen '%:r.pdf'<CR> |
 	\ set autoindent |
@@ -311,7 +312,7 @@ endfunction
 call airline#parts#define_function('asyncrun_status', 'Get_asyncrun_running')
 let g:airline_section_x = airline#section#create(['asyncrun_status'])
 
-if exists(':cscope')
+if has('cscope')
 	if !empty($CSCOPE_DB)
 		cscope add $CSCOPE_DB
 		set cscopetag
