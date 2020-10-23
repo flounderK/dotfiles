@@ -154,6 +154,11 @@ function lddlibs () {
 	ldd "$1" | grep --color=never -Po '[^ \t]+(?= \()'
 }
 
+function qdisasm () {
+	r2 -q $1 <<<'pdi
+    qq'
+}
+
 if [ -d "/opt/ghidra/support" ];then
 	export PATH="/opt/ghidra/support:$PATH"
 fi
