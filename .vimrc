@@ -14,6 +14,7 @@ function! Vundleinstall()
 		autocmd VimEnter * PluginInstall
 	endif
 endfunction
+call Vundleinstall()
 
 
 scriptencoding utf-8
