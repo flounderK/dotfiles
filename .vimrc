@@ -92,6 +92,9 @@ set splitbelow
 set splitright
 set autoread  " Auto reload file after external command
 set hlsearch
+set ignorecase	   " Ignore case when pattern matching
+set smartcase      " Ignores ignorecase if pattern contains uppercase
+set showmatch      " flashes matching brackets
 
 
 let g:NERDTreeWinSize=40
