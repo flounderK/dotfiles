@@ -313,6 +313,9 @@ call airline#parts#define_function('asyncrun_status', 'Get_asyncrun_running')
 let g:airline_section_x = airline#section#create(['asyncrun_status'])
 
 if has('cscope')
+	if filereadable("cscope.out")
+		let $CSCOPE_DB = "cscope.out"
+	endif
 	if !empty($CSCOPE_DB)
 		cscope add $CSCOPE_DB
 		set cscopetag
