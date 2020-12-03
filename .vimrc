@@ -328,6 +328,34 @@ if has('cscope')
 endif
 
 
+" Shamelessly stolen from https://vim.fandom.com/wiki/Display_output_of_shell_commands_in_new_window
+function! s:ExecuteInShell(command)
+  let command = join(map(split(a:command), 'expand(v:val)'))
+  let winnr = bufwinnr('^' . command . '$')
+  silent! execute  winnr < 0 ? 'botright new ' . fnameescape(command) : winnr . 'wincmd w'
+  setlocal buftype=nowrite bufhidden=wipe nobuflisted noswapfile nowrap number
+  echo 'Execute ' . command . '...'
+  silent! execute 'silent %!'. command
+  silent! execute 'resize ' . line('$')
+  silent! redraw
+  silent! execute 'au BufUnload <buffer> execute bufwinnr(' . bufnr('#') . ') . ''wincmd w'''
+  silent! execute 'nnoremap <silent> <buffer> <LocalLeader>r :call <SID>ExecuteInShell(''' . command . ''')<CR>'
+  echo 'Shell command ' . command . ' executed.'
+endfunction
+command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
+
+
+function! RecursiveGrep(searchterm, ...)
+	let l:flags = a:0 > 0 ? a:1 : ''
+	let l:cmd = "grep . -rni " . l:flags . " '" . a:searchterm . "'"
+	call s:ExecuteInShell(l:cmd)
+endfunction
+command! -complete=shellcmd -nargs=* GrepProj call RecursiveGrep(<f-args>)
+
+
+" Reload .vimrc without having to close and re open
+command! -nargs=0 ReloadVimrc :source $MYVIMRC
+
 " useful things for later
 " :h w18
 " :h syn
