@@ -154,6 +154,11 @@ function lddlibs () {
 	ldd "$1" | grep --color=never -Po '[^ \t]+(?= \()'
 }
 
+function cfind () {
+	find . -iname '*.c' -o -iname '*.h' -o -iname '*.cc' -o -iname '*.hh' -o -iname '*.cpp' -o -iname '*.hpp' -o -iname '*.cxx'
+
+}
+
 function qdisasm () {
 	r2 -q $1 <<<'pdi
     qq'
@@ -202,3 +207,4 @@ cowtune 2>/dev/null
 # command -v virtualenvwrapper.sh >/dev/null && source $(whereis virtualenvwrapper.sh | cut -f2- -d ' ')'
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 #export PATH="$PATH:$HOME/.rvm/bin"
+source "$HOME/.zshenv"

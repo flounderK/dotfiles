@@ -37,7 +37,7 @@ if (exists(':Plugin') > -1)
 	Plugin 'vim-scripts/indentpython.vim'
 	Plugin 'tpope/vim-fugitive'
 	Plugin 'airblade/vim-gitgutter'
-	Plugin 'vim-scripts/cscope.vim'
+	" Plugin 'vim-scripts/cscope.vim'
 	Plugin 'vim-scripts/a.vim'
 	" Plugin 'Valloric/YouCompleteMe'
 	" Requires running install script
@@ -316,16 +316,17 @@ endfunction
 call airline#parts#define_function('asyncrun_status', 'Get_asyncrun_running')
 let g:airline_section_x = airline#section#create(['asyncrun_status'])
 
-if has('cscope')
-	if filereadable("cscope.out")
-		let $CSCOPE_DB = "cscope.out"
-	endif
-	if !empty($CSCOPE_DB)
-		cscope add $CSCOPE_DB
-		set cscopetag
-		nnoremap <leader>fa :call cscope#findInteractive(expand('<cword>'))<CR>
-	endif
-endif
+
+" if has('cscope')
+" 	if filereadable("cscope.out")
+" 		let $CSCOPE_DB = "cscope.out"
+" 	endif
+" 	if !empty($CSCOPE_DB)
+" 		cscope add $CSCOPE_DB
+" 		set cscopetag
+" 		nnoremap <leader>fa :call cscope#findInteractive(expand('<cword>'))<CR>
+" 	endif
+" endif
 
 
 " Shamelessly stolen from https://vim.fandom.com/wiki/Display_output_of_shell_commands_in_new_window

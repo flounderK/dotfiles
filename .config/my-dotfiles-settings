@@ -1,5 +1,5 @@
 [repo-location]
-~/Documents/cloned/dotfiles/
+.dotfiles/
 
 [files-to-update]
 .config/i3status/config
@@ -9,6 +9,7 @@
 .zshrc
 .Xresources
 .vimrc
+.vimrc.min
 .gdbinit
 .xinitrc
 .zprofile

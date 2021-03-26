@@ -1,0 +1,86 @@
+
+scriptencoding utf-8
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8,ucs-bom,uft8,prc
+set ttyfast
+
+
+
+" Disable bell
+set visualbell                  " Disable visual bell
+set noerrorbells                " Disable error bell
+set showcmd
+set nocompatible
+filetype off
+filetype plugin indent on
+set termguicolors
+set laststatus=2
+set ttimeoutlen=50
+set t_Co=256
+syntax on
+set splitbelow
+set splitright
+set autoread  " Auto reload file after external command
+set hlsearch
+set ignorecase	   " Ignore case when pattern matching
+set smartcase      " Ignores ignorecase if pattern contains uppercase
+set showmatch      " flashes matching brackets
+set wildmenu " Visual autocomplete for command menu
+set tags=tags; " Find tags recursively
+
+
+" Make completion menu behave like an IDE
+set completeopt=longest,menuone,preview
+colorscheme elflord
+set nu
+set ruler
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+let mapleader = ","
+
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+map <leader><tab> :bnext<cr>
+noremap <leader>d :bp<cr>:bd #<cr>
+" Redraw the screen and remove highlighting
+nnoremap <silent> <leader><C-l> :nohl<CR><C-l>
+" Fix accidental uppercaseing
+" again, from vim-boostrap
+cnoreabbrev Q! q!
+
+autocmd BufWritePre * %s/\s\+$//e
+
+
+autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR>
+" autocmd BufNewFile,BufRead *.py
+autocmd FileType python set colorcolumn=80
+autocmd FileType python set shiftwidth=4
+" autocmd FileType python set textwidth=120
+autocmd FileType python set softtabstop=4
+autocmd FileType python set expandtab
+autocmd FileType python set autoindent   " Copy indentation from previous line
+autocmd FileType python set fileformat=unix
+
+
+augroup CBuild
+	autocmd filetype c,cpp set expandtab
+	autocmd filetype c,cpp set autoindent " Copy indentation from previous line
+	autocmd filetype c,cpp set colorcolumn=110
+	autocmd filetype c,cpp let &path.="src/include,/usr/include/AL,/usr/include/linux" . ',/lib/modules/' . system('/usr/bin/uname -r') . '/build/include'
+augroup END
+
+
+autocmd BufNewFile,BufRead *.md
+	\ set fileencoding=utf-8 |
+	\ map <leader>c :w! \| :AsyncRun pandoc --pdf-engine=xelatex -s -o '%:r.pdf' <c-r>%<CR> |
+	\ map <leader>m :w! \| :AsyncRun mimeopen '%:r.pdf'<CR> |
+	\ set autoindent |
+	\ set expandtab
+
+
+" Reload .vimrc without having to close and re open
+command! -nargs=0 ReloadVimrc :source $MYVIMRC
