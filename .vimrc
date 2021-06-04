@@ -301,8 +301,41 @@ endfunction
 call airline#parts#define_function('asyncrun_status', 'Get_asyncrun_running')
 let g:airline_section_x = airline#section#create(['asyncrun_status'])
 
+" Mouse mode, if available
+if has("mouse")
+    set mouse=a
+endif
 
+" Highlight trailing whitespace
+highlight ExtraWhitespace ctermbg=red guibg=red
+autocmd ColorScheme * highlight ExtraWhitespace guibg=red
+autocmd BufEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhiteSpace /\s\+$/
 
+""" Window/Buffer movement
+" Buffers
+nmap <Leader>J :bnext<CR>
+nmap <Leader>K :bprev<CR>
+" Windows
+nmap <Leader>k :wincmd k<CR>
+nmap <Leader>j :wincmd j<CR>
+nmap <Leader>h :wincmd h<CR>
+nmap <Leader>l :wincmd l<CR>
+
+" Delete extra whitespace
+nnoremap <Leader>d :%s/\s\+$//<CR>
+
+" like nerdtree, just dont click on the terminal while editing.
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 12
+augroup ProjectDrawer
+  autocmd!
+  autocmd VimEnter * :Vexplore
+augroup END
 
 " useful things for later
 " :h w18
