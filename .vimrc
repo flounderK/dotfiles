@@ -246,9 +246,13 @@ function! CopyAndSetCIndentStyle()
 	" :/\%V\_^\(\s\+\)\(\W\)\@=
 	let l:cmd = l:bracket_start . "," . l:bracket_end . "/\\_^\\(\\s\\+\\)\\(\\W\\)\\@="
 	execute l:cmd
-	let @a = ''
-	:silent bufdo CopyMatches A
-	let g:indent_matches = split(@a, "\n")
+	" let @a = ''
+	" :silent bufdo CopyMatches A
+	let l:hits = []
+	" not entirely certain how this part works
+	silent! %s//\=len(add(l:hits, submatch(0))) ? submatch(0) : ''/gne
+	" let g:indent_matches = split(@a, "\n")
+	let g:indent_matches = l:hits
 	let g:tab_template = g:indent_matches[0]
 	let g:template_len = len(g:tab_template)
 	if match(g:tab_template, " ") > -1
