@@ -201,6 +201,57 @@ nnoremap <silent> <leader><C-l> :nohl<CR><C-l>
 " again, from vim-boostrap
 cnoreabbrev Q! q!
 
+
+" :let @a = ''
+" :bufdo CopyMatches A
+"
+function! CopyMatches(reg)
+  let hits = []
+  %s//\=len(add(hits, submatch(0))) ? submatch(0) : ''/gne
+  let reg = empty(a:reg) ? '+' : a:reg
+  execute 'let @'.reg.' = join(hits, "\n") . "\n"'
+endfunction
+command! -register CopyMatches call CopyMatches(<q-reg>)
+
+function! CopyAndSetCIndentStyle()
+	let g:starting_cursor_pos = getpos(".")
+	" echom "starting cursor pos " . g:starting_cursor_pos[1]
+	" :/^\%(\%([a-zA-Z0-9_i\*]\%([a-zA-Z0-9_i\*]\|\r\|\s\|\n\)*\)*\)\zs(\ze
+	:/^\%(\%([a-zA-Z0-9_i\*]\%([a-zA-Z0-9_i\*]\|\r\|\s\|\n\)*\)*\)\zs(\ze
+	" echom "starting parenthesis pos " . getpos(".")[1]
+	normal "n%"
+	" echom "ending parenthesis pos " . getpos(".")[1]
+	:/{
+
+	let l:bracket_start = getpos(".")[1]
+	" echom "bracket start line " . l:bracket_start
+	" get ending bracket in visual block
+	normal "v%"
+
+	let l:bracket_end = getpos(".")[1]
+	" echom "bracket end line " . l:bracket_end
+	" get tab indentation out of last selected block
+	" :/\%V\_^\(\s\+\)\(\W\)\@=
+	let l:cmd = l:bracket_start . "," . l:bracket_end . "/\\_^\\(\\s\\+\\)\\(\\W\\)\\@="
+	execute l:cmd
+	let @a = ''
+	:silent bufdo CopyMatches A
+	let g:indent_matches = split(@a, "\n")
+	let g:tab_template = g:indent_matches[0]
+	let g:template_len = len(g:tab_template)
+	if match(g:tab_template, " ") > -1
+		" echom "using spaces"
+		let &tabstop = g:template_len
+		let &softtabstop = g:template_len
+		let &shiftwidth = g:template_len
+	elseif match(g:tab_template, "\t") > -1
+		" echom "using tabs"
+		let &softtabstop = -1
+		let &tabstop = g:template_len
+		let &shiftwidth = g:template_len
+	endif
+endfunction
+
 " AutoCmds
 
 
@@ -238,6 +289,7 @@ augroup END
 
 
 augroup CBuild
+	autocmd filetype c,cpp call CopyAndSetCIndentStyle()
 	autocmd filetype c,cpp set expandtab
 	autocmd filetype c,cpp set autoindent " Copy indentation from previous line
 	autocmd filetype c,cpp set colorcolumn=110
@@ -357,6 +409,55 @@ command! -complete=shellcmd -nargs=* GrepProj call RecursiveGrep(<f-args>)
 " Reload .vimrc without having to close and re open
 command! -nargs=0 ReloadVimrc :source $MYVIMRC
 
+
+
+" Return list of matches for given pattern in given range.
+" This only works for matches within a single line.
+" Empty hits are skipped so search for '\d*\ze,' is not stuck in '123,456'.
+" If omit match() 'count' argument, pattern '^.' matches every character.
+" Using count=1 causes text before the 'start' argument to be considered.
+function! GetMatches(line1, line2, pattern)
+  let hits = []
+  for line in range(a:line1, a:line2)
+    let text = getline(line)
+    let from = 0
+    while 1
+      let next = match(text, a:pattern, from, 1)
+      if next < 0
+        break
+      endif
+      let from = matchend(text, a:pattern, from, 1)
+      if from > next
+        call add(hits, strpart(text, next, from - next))
+      else
+        let char = matchstr(text, '.', next)
+        if empty(char)
+          break
+        endif
+        let from = next + strlen(char)
+      endif
+    endwhile
+  endfor
+  return hits
+endfunction
+
+" This creates two visual maps, / and ?, the same command you would use in normal mode.
+" Visually select a range and press /, enter your usual regex and hit enter.
+"function! RangeSearch(direction)
+"  call inputsave()
+"  let g:srchstr = input(a:direction)
+"  call inputrestore()
+"  if strlen(g:srchstr) > 0
+"    let g:srchstr = g:srchstr.
+"          \ '\%>'.(line("'<")-1).'l'.
+"          \ '\%<'.(line("'>")+1).'l'
+"  else
+"    let g:srchstr = ''
+"  endif
+"endfunction
+"vnoremap <silent> / :<C-U>call RangeSearch('/')<CR>:if strlen(g:srchstr) > 0\|exec '/'.g:srchstr\|endif<CR>
+"vnoremap <silent> ? :<C-U>call RangeSearch('?')<CR>:if strlen(g:srchstr) > 0\|exec '?'.g:srchstr\|endif<CR>
+
 " useful things for later
 " :h w18
 " :h syn
@@ -365,4 +466,9 @@ command! -nargs=0 ReloadVimrc :source $MYVIMRC
 " ma " set mark a
 " # " search what is under the cursor
 " C-[ and C-t with ctags
+"
+"
+"
+"
+"
 "
