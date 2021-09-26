@@ -217,11 +217,23 @@ function! CopyAndSetCIndentStyle()
 	let g:starting_cursor_pos = getpos(".")
 	" echom "starting cursor pos " . g:starting_cursor_pos[1]
 	" :/^\%(\%([a-zA-Z0-9_i\*]\%([a-zA-Z0-9_i\*]\|\r\|\s\|\n\)*\)*\)\zs(\ze
-	:/^\%(\%([a-zA-Z0-9_i\*]\%([a-zA-Z0-9_i\*]\|\r\|\s\|\n\)*\)*\)\zs(\ze
+	try
+		:/^\%(\%([a-zA-Z0-9_i\*]\%([a-zA-Z0-9_i\*]\|\r\|\s\|\n\)*\)*\)\zs(\ze
+	catch /E486/  " not found
+		" echom "returning " . getpos(".")[1]
+		" force the error through for now
+		:silent! call feedkeys("\<CR>")
+		return
+	endtry
 	" echom "starting parenthesis pos " . getpos(".")[1]
 	normal "n%"
 	" echom "ending parenthesis pos " . getpos(".")[1]
-	:/{
+	try
+		:/{
+	catch /E486/  " not found
+		:silent! call feedkeys("\<CR>")
+		return
+	endtry
 
 	let l:bracket_start = getpos(".")[1]
 	" echom "bracket start line " . l:bracket_start
