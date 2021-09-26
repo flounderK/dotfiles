@@ -222,7 +222,7 @@ function! CopyAndSetCIndentStyle()
 	catch /E486/  " not found
 		" echom "returning " . getpos(".")[1]
 		" force the error through for now
-		:silent! call feedkeys("\<CR>")
+		silent! redraw
 		return
 	endtry
 	" echom "starting parenthesis pos " . getpos(".")[1]
@@ -231,7 +231,7 @@ function! CopyAndSetCIndentStyle()
 	try
 		:/{
 	catch /E486/  " not found
-		:silent! call feedkeys("\<CR>")
+		silent! redraw
 		return
 	endtry
 
