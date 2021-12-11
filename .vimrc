@@ -305,7 +305,7 @@ augroup END
 
 
 augroup CBuild
-	autocmd filetype c,cpp call CopyAndSetCIndentStyle()
+	"autocmd filetype c,cpp call CopyAndSetCIndentStyle()
 	autocmd filetype c,cpp set expandtab
 	autocmd filetype c,cpp set autoindent " Copy indentation from previous line
 	autocmd filetype c,cpp set colorcolumn=110
