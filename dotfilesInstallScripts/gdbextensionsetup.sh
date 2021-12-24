@@ -47,6 +47,7 @@ $PYTHON_BIN -mpip install -r requirements.txt
 echo "INSTALLING PWNDGB"
 cd "$PWNDBG_INSTALL_LOCATION"
 $PYTHON_BIN -mpip install -r requirements.txt
+./setup.sh
 cd "$ORIGINAL_DIR"
 
 PWNDBG_SOURCELINE_NEEDED=1
