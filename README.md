@@ -4,6 +4,8 @@ An amazing vim config, a mediocre zsh config, and (for those with no fear) emoji
 
 Also my script for quickly updating/installing my dotfiles on many machines.
 
+Eventually much of this might be merged with the ctf environment setup scripts because there is so much overlap [https://github.com/flounderK/ctf-environment](https://github.com/flounderK/ctf-environment)
+
 Usage:
 
 for zsh:
