@@ -7,7 +7,7 @@ Also my script for quickly updating/installing my dotfiles on many machines.
 Usage:
 
 for zsh:
-```bash`
+```bash
 sudo ./dotfilesInstallScripts/zsh_deps.sh
 ./dotfilesInstallScripts/zshsetup.sh
 python3 update_dotfiles.py --install -f .zshrc
