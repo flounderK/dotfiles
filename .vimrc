@@ -68,6 +68,7 @@ if (exists(':Plugin') > -1)
 	Plugin 'tell-k/vim-autopep8'
 	Plugin 'ajh17/vimcompletesme'
 	Plugin 'PProvost/vim-ps1'
+	Plugin 'rust-lang/rust.vim'
 	call vundle#end()
 endif
 
@@ -166,6 +167,10 @@ let g:ale_c_gcc_executable = '/usr/bin/gcc'
 let g:ale_c_gcc_options = '-Wall -std=c11'
 let g:ale_cpp_gcc_executable = '/usr/bin/g++'
 let g:ale_cpp_gcc_options = '-Wall -std=c11'
+
+if executable("ctags-universal")
+	let g:tagbar_ctags_bin = 'ctags-universal'
+endif
 " Maps
 
 
