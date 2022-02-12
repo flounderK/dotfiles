@@ -60,7 +60,7 @@ function mimeopen () {nohup mimeopen "$@" &>/dev/null & disown}
 function libreoffice () {nohup libreoffice "$@" &>/dev/null & disown}
 function firefox () {nohup firefox "$@" &>/dev/null & disown}
 function ida () {nohup ida "$@" &>/dev/null & disown}
-function newpy () {echo "#!/usr/bin/python3" > "$@" && chmod +x "$@"}
+function newpy () {echo "#!/usr/bin/env python3" > "$@" && chmod +x "$@"}
 function newpyvenv () {
 	if [ ! -d .venv ]; then
 		pyenv exec python -m venv .venv
@@ -157,6 +157,10 @@ function lddlibs () {
 function cfind () {
 	find . -iname '*.c' -o -iname '*.h' -o -iname '*.cc' -o -iname '*.hh' -o -iname '*.cpp' -o -iname '*.hpp' -o -iname '*.cxx'
 
+}
+
+function gen_vmlinux_h () {
+	bpftool btf dump file /sys/kernel/btf/vmlinux format c
 }
 
 function qdisasm () {
