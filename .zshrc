@@ -155,7 +155,14 @@ function lddlibs () {
 }
 
 function cfind () {
-	find . -iname '*.c' -o -iname '*.h' -o -iname '*.cc' -o -iname '*.hh' -o -iname '*.cpp' -o -iname '*.hpp' -o -iname '*.cxx'
+	# default to current directory, but support more
+	if [ $# -lt 1 ]; then
+		POSITIONAL=(".")
+	else
+		POSITIONAL=("${@}")
+	fi
+
+	find ${POSITIONAL[@]} -iname '*.c' -o -iname '*.h' -o -iname '*.cc' -o -iname '*.hh' -o -iname '*.cpp' -o -iname '*.hpp' -o -iname '*.cxx'
 
 }
 
