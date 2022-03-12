@@ -10,7 +10,7 @@ VERBOSE=no
 
 if [ ! -x libsh/std.sh ];then
 	echo "setup.sh: Error: libsh/std.sh Does Not Exist or is Not Executable."
-	echo "setup.sh: Try running 'git submodule init && git submodule update'." 
+	echo "setup.sh: Try running 'git submodule init && git submodule update'."
 	exit 1
 fi
 
@@ -73,15 +73,18 @@ main() {
 		python3 $SELF_PARENT/update_dotfiles.py --install -f $dot
 	done
 	cd $SELF_PARENT
-	
+
 	write ${BLUE}"Opening vim."${RESET}
 	vim
-	
+
+	# make python interactive tab complete work
+	echo 'export PYTHONSTARTUP="~/.pythonstartup.py"' >> ~/.bashrc
+
 	if expr "$OFFLINE" : 'yes' > /dev/null; then
 		verbose "Storing Offline vim Plugins to $VIM_OFFLINE/bundle"
-		mkdir -p $VIM_OFFLINE 
+		mkdir -p $VIM_OFFLINE
 		check_file  ~/.vim/bundle && cp -r ~/.vim/bundle $VIM_OFFLINE/bundle
-	fi 
+	fi
 
 	write ${BLUE}"Setting zsh as the default shell."${RESET}
 	sudo chsh -s /usr/bin/zsh

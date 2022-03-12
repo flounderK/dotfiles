@@ -344,3 +344,5 @@ augroup END
 " hi def link
 " C-[ and C-t with ctags
 "
+" noh - no highlight
+"map <esc> :noh <CR>
