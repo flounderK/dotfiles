@@ -162,7 +162,8 @@ function cfind () {
 		POSITIONAL=("${@}")
 	fi
 
-	find ${POSITIONAL[@]} -iname '*.c' -o -iname '*.h' -o -iname '*.cc' -o -iname '*.hh' -o -iname '*.cpp' -o -iname '*.hpp' -o -iname '*.cxx'
+	find ${POSITIONAL[@]} -iname '*.c' -o -iname '*.h' -o -iname '*.cc' -o -iname '*.hh' -o -iname '*.cpp' -o -iname '*.hpp' -o -iname '*.cxx' \
+		-o -iname '*.c.inc'
 
 }
 
