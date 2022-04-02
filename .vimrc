@@ -302,10 +302,18 @@ autocmd filetype haskell
 "autocmd filetype cpp nnoremap <F4> :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
 "BufNewFile,BufRead *.cpp,*.cxx,*.c,*.h,*.hpp,*.hxx
 
-augroup vimrc-make-cmake
+augroup vimrc-make
 	autocmd!
 	autocmd filetype make setlocal noexpandtab
+augroup END
+
+augroup vimrc-cmake
+	autocmd!
 	autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
+	autocmd filetype cmake set autoindent
+	autocmd filetype cmake set shiftwidth=4
+	autocmd filetype cmake set softtabstop=4
+	autocmd filetype cmake set expandtab
 augroup END
 
 
