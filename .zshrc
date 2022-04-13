@@ -213,6 +213,7 @@ alias calcurse='calcurse -D ~/.config/calcurse'
 alias glggv='git log --graph --full-history --all --color --pretty=format:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"'
 alias yeet='yay -Rsn'
 alias reload='source ~/.zshrc'
+alias qrun='export AFL_PATH="$HOME/cloned/AFLplusplus/"; export AFL_USE_QASAN=1; $AFL_PATH/qemu_mode/qemuafl/build/qemu-x86_64 '
 command -v pypy3 >/dev/null && alias ipypy3='pypy3 -mIPython'
 command -v pypy3 >/dev/null && alias pypy3pip='pypy3 -mpip'
 cowtune 2>/dev/null
