@@ -86,7 +86,7 @@ main() {
 	if expr "$OFFLINE" : 'yes' > /dev/null; then
 		verbose "Storing Offline vim Plugins to $VIM_OFFLINE/bundle"
 		mkdir -p $VIM_OFFLINE
-		check_file  ~/.vim/bundle && ! check_file $VIM_OFFLINE/bundle && cp -r ~/.vim/bundle $VIM_OFFLINE/bundle
+		check_file  ~/.vim/bundle && [ ! -e $VIM_OFFLINE/bundle ] && cp -r ~/.vim/bundle $VIM_OFFLINE/bundle
 	fi
 
 	write ${BLUE}"Setting zsh as the default shell."${RESET}
