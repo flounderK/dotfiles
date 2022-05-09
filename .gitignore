@@ -3,3 +3,4 @@ test.sh
 tmp
 vim_offline/
 ohmyzsh_offline/
+build/

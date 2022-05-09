@@ -4,27 +4,33 @@ An amazing vim config, a mediocre zsh config, and (for those with no fear) emoji
 
 Also my script for quickly updating/installing my dotfiles on many machines.
 
+# Dependencies
+## Ubuntu
+```bash
+sudo apt update
+sudo apt install vim fonts-powerline exuberant-ctags zsh gdb -y
+```
+
 ## Usage:
 
 * Combined Using `setup.sh`
-    
+
     `git clone` this repository, then:
-    
+
     ```bash
+    git clone --recurse-submodules -j8 https://github.com/rbaas293/dotfiles.git
     cd dotfiles
-    git submodule init
-    git submodule update
     ./setup.sh [--offline] [--verbose]
     ```
 
-    An optional _offline mode_ is included which provides the functionality to run the script on an 
-    _online_ computer then transfer it to an _offline_ computer. This method assumes 
-    there is an **apt/pacman mirror** on the _offline_ network. 
-    
-    Simply pass the `--offline` switch to 
-    `setup.py` while _online_ to download the required repositories, then transfer this repo to the 
+    An optional _offline mode_ is included which provides the functionality to run the script on an
+    _online_ computer then transfer it to an _offline_ computer. This method assumes
+    there is an **apt/pacman mirror** on the _offline_ network.
+
+    Simply pass the `--offline` switch to
+    `setup.py` while _online_ to download the required repositories, then transfer this repo to the
     _offline_ machine and run again.
-    
+
 * `zsh`
 
     ```bash
@@ -35,7 +41,7 @@ Also my script for quickly updating/installing my dotfiles on many machines.
     ```
 
 * `vim`
-    
+
     ```bash
     sudo ./dotfilesInstallScripts/vim_deps.sh
     ./update_dotfiles.py --install -f .vimrc

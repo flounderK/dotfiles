@@ -37,7 +37,7 @@ main() {
 		OFFLINE=yes
 	fi
 
-	need_root
+	#need_root
 	setup_color override
 
 	verbose "Checking for existence of $SCRIPTS"
@@ -49,15 +49,18 @@ main() {
 	done
 
 	# Run Dependencies
-	write ${BLUE}"Installing Dependencies"${RESET}
-	bash $SCRIPTS/vim_deps.sh
-	bash $SCRIPTS/zsh_deps.sh
+	#write ${BLUE}"Installing Dependencies"${RESET}
+	#bash $SCRIPTS/vim_deps.sh
+	#bash $SCRIPTS/zsh_deps.sh
 
 	if expr "$OFFLINE" : 'yes' > /dev/null && check_file $VIM_OFFLINE/bundle c &>/dev/null ; then
 
 		verbose "Copying Offline vim Plugins to ~/.vim/bundle"
 		mkdir -p ~/.vim
-		cp -r $VIM_OFFLINE/bundle ~/.vim
+		if [ ! -d ~/.vim/bundle ]; then
+			cp -r $VIM_OFFLINE/bundle ~/.vim
+		fi
+
 		if [ -d ~/.vim/bundle ]; then
 			verbose $GREEN"Sucess."$RESET
 		fi
@@ -83,13 +86,28 @@ main() {
 	if expr "$OFFLINE" : 'yes' > /dev/null; then
 		verbose "Storing Offline vim Plugins to $VIM_OFFLINE/bundle"
 		mkdir -p $VIM_OFFLINE
-		check_file  ~/.vim/bundle && cp -r ~/.vim/bundle $VIM_OFFLINE/bundle
+		check_file  ~/.vim/bundle && ! check_file $VIM_OFFLINE/bundle && cp -r ~/.vim/bundle $VIM_OFFLINE/bundle
 	fi
 
 	write ${BLUE}"Setting zsh as the default shell."${RESET}
-	sudo chsh -s /usr/bin/zsh
-	write ${BLUE}${BOLD}"DONE."${RESET}
+	write ${BLUE}"Run: sudo chsh -s /usr/bin/zsh"${RESET}
+	#sudo chsh -s /usr/bin/zsh
 
+	if expr "$OFFLINE" : 'yes' > /dev/null; then
+		write ${BLUE}"Exporing archives to ${PWD}/build"${RESET}
+		build_zip
+	fi
+
+	write ${BLUE}${BOLD}"DONE."${RESET}
 }
+
+build_zip(){
+	mkdir -p build
+	pushd .. > /dev/null
+	zip -q -r dotfiles/build/$(date +"%m%d%y")_dotfiles.zip dotfiles -x "\dotfiles/.git/*" "\dotfiles/build/*"
+	popd > /dev/null
+	tar --exclude="dotfiles/.git" --exclude="dotfiles/build" -czf build/$(date +"%m%d%y")_dotfiles.tar.gz ../dotfiles > /dev/null
+}
+
 
 main "$@"
