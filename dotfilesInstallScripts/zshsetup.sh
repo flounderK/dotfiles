@@ -25,20 +25,20 @@ main() {
 	param switch d $@
 
 	setup_color override
-	
-	echo 
+
+	echo
 	verbose "**START zshsetup.sh**"
 
-	
+
 	# Before additon of libsh I was using the variable $OFFLINE so the following is
-	# a compatability trick due to use of --offline creating the variable $offline instead of $OFFLINE. 
+	# a compatability trick due to use of --offline creating the variable $offline instead of $OFFLINE.
 	if expr "$offline" : 'yes' > /dev/null; then
 		OFFLINE=yes
 	fi
 
 	# Only output cloneing if verbose was passed
 	if ! exists $verbose; then
-		quiet='--quiet' 
+		quiet='--quiet'
 	fi
 
 	if expr "$OFFLINE" : 'no' > /dev/null
@@ -51,11 +51,11 @@ main() {
 			exit 1
 		fi
 
-		curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh -s -- --unattended 
-		
+		curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh -s -- --unattended
+
 		for REPO in zsh-syntax-highlighting zsh-autosuggestions; do
 			check_file $ZSH_CUSTOM/plugins/$REPO c &> /dev/null || verbose "Cloning sh-users/$REPO"; \
-			git clone "$quiet" https://github.com/zsh-users/$REPO.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/$REPO 
+			git clone "$quiet" https://github.com/zsh-users/$REPO.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/$REPO
 		done
 	fi
 
@@ -68,20 +68,20 @@ main() {
 			verbose "Set to Offline Mode."
 
 			write $BLUE"Attempting to download/update offline files."$RESET
-			wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh --quiet -t 1 && mv install.sh $OHMYZSH_OFFLINE/ohmyzsh_install_orig.sh
+			wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh --quiet -t 1 && mv install.sh $OHMYZSH_OFFLINE/ohmyzsh_install_orig.sh && verbose "Success, downloaded install script"
 
-			git clone --quiet https://github.com/zsh-users/zsh-syntax-highlighting.git $OHMYZSH_OFFLINE/zsh-syntax-highlighting &> $null && write ${MAGENTA}"Success: zsh-syntax-highlighting"${RESET} || \ 
+			git clone --quiet https://github.com/zsh-users/zsh-syntax-highlighting.git $OHMYZSH_OFFLINE/zsh-syntax-highlighting &> $null && write ${MAGENTA}"Success: zsh-syntax-highlighting"${RESET} || \
 			debug "1. git pull" ; cd $OHMYZSH_OFFLINE/zsh-syntax-highlighting && git pull origin master --quiet && cd $SELF_PARENT
 
 			git clone --quiet https://github.com/zsh-users/zsh-autosuggestions.git $OHMYZSH_OFFLINE/zsh-autosuggestions &> $null && write ${MAGENTA}"Success. zsh-autosuggestions"${RESET}  || \
 			debug "2. git pull" ; cd $OHMYZSH_OFFLINE/zsh-autosuggestions && git pull origin master --quiet && cd $SELF_PARENT
-		} || { 
+		} || {
 			write $RED"Could not download/update offline files."$RESET
 			write $GREEN"Switching to offline files to setup oh-my-zsh."$RESET
 		}
 
 		cd $SELF_PARENT
-		
+
 		verbose "Checking if Files Exist."
 		for i in $SCRIPTS/ohmyzsh_install.sh $OHMYZSH_OFFLINE/zsh-syntax-highlighting $OHMYZSH_OFFLINE/zsh-autosuggestions
 		do
@@ -97,7 +97,7 @@ main() {
 
 		verbose "Making ohmysh_install.sh executable."
 		chmod +x $OHMYZSH_OFFLINE/ohmyzsh_install.sh
-		
+
 		write $BLUE"Installing ${BOLD}oh-my-zsh"$RESET
 		sh $OHMYZSH_OFFLINE/ohmyzsh_install.sh --unattended $@
 
