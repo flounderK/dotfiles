@@ -130,7 +130,8 @@ function findfileextensions () {
 # }
 
 function getmaketargets () {
-	make -q -p -f /dev/null 2>/dev/null | awk -F':' '/^[.a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | sort | uniq
+	make -q -p $@ 2>/dev/null | grep -Pv '^#' | grep --color=never -Po '^[^:\t]+:'
+	# make -q -p -f /dev/null 2>/dev/null | awk -F':' '/^[.a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | sort | uniq
 }
 
 function getzshfunctionnames () {
@@ -204,7 +205,7 @@ alias list-bindsyms='cat ~/.config/i3/config | grep -P "^bindsym" --color=never'
 alias ei3='vim ~/.config/i3/config'
 alias quickswap='mkdir -p /mnt/ram; mount -t tmpfs tmpfs /mnt/ram -o size=4096'
 alias ccat='highlight'
-alias ssh='TERM=linux ssh'
+# alias ssh='TERM=linux ssh'
 alias sshpass='TERM=linux sshpass'
 alias ansible-vault="EDITOR=$EDITOR ansible-vault"
 alias gb='git branch -a | cat -'
