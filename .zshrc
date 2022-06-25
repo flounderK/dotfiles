@@ -168,6 +168,17 @@ function cfind () {
 
 }
 
+function tagsum () {
+	# dump out a summary of what is in the file using ctags
+	if [ $# -lt 1 ]; then
+		echo "Usage: tagsum <c-file-path>"
+		return
+	else
+		POSITIONAL=("${@}")
+	fi
+	ctags -x ${POSITIONAL[@]} | tr -s ' ' | cut -d ' ' -f2,5- | sort -r
+}
+
 function gen_vmlinux_h () {
 	bpftool btf dump file /sys/kernel/btf/vmlinux format c
 }
