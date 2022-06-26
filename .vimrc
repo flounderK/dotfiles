@@ -276,6 +276,8 @@ endfunction
 " AutoCmds
 
 
+autocmd BufRead *.inc set filetype=c
+
 autocmd BufWritePre * %s/\s\+$//e
 autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR>
 " autocmd BufNewFile,BufRead *.py
