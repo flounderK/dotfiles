@@ -104,7 +104,16 @@ function extract () {
 }
 
 function findfileextensions () {
-	find $PWD -path '**test**' -prune -false -o -name '*.*' | grep --color=never -Po '(?<=\.)[^/.]+$' | sort | uniq
+	# find all file extensions
+	# default to current directory, but support more
+	if [ $# -lt 1 ]; then
+		POSITIONAL=(".")
+	else
+		POSITIONAL=("${@}")
+	fi
+	# for ignoring test files
+	# find ${POSITIONAL[@]} -path '**test**' -prune -false -o -name '*.*' |
+	find ${POSITIONAL[@]} -name '*.*' | grep --color=never -Po '(?<=\.)[^/.]+$' | sort | uniq
 }
 
 # this doesnt work on zsh
