@@ -13,7 +13,9 @@ for zsh:
 sudo ./dotfilesInstallScripts/zsh_deps.sh
 ./dotfilesInstallScripts/zshsetup.sh
 python3 update_dotfiles.py --install -f .zshrc
-sudo chsh -s /usr/bin/zsh
+python3 update_dotfiles.py --install -f .zshenv
+python3 update_dotfiles.py --install -f .zprofile
+sudo chsh -s $(which zsh) $(whoami)
 ```
 
 for vim:
