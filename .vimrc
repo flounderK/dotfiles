@@ -25,6 +25,7 @@ set ttyfast
 " Disable bell
 set visualbell                  " Disable visual bell
 set noerrorbells                " Disable error bell
+set belloff=all
 set showcmd
 set nocompatible
 filetype off
