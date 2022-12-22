@@ -177,6 +177,21 @@ function cfind () {
 
 }
 
+function cfindgp () {
+	# default to current directory, but support more
+	# TODO: handle -- here so that both commands can be provided input
+	# if [ $# -lt 1 ]; then
+	# 	POSITIONAL=(".")
+	# else
+	# 	POSITIONAL=("${@}")
+	# fi
+
+	find . -iname '*.c' -o -iname '*.h' -o -iname '*.cc' -o -iname '*.hh' -o -iname '*.cpp' -o -iname '*.hpp' -o -iname '*.cxx' \
+		-o -iname '*.c.inc' | xargs -d '\n' grep -P ${@}
+
+}
+
+
 function tagsum () {
 	# dump out a summary of what is in the file using ctags
 	if [ $# -lt 1 ]; then
@@ -199,6 +214,10 @@ function qdisasm () {
 
 if [ -d "/opt/ghidra/support" ];then
 	export PATH="/opt/ghidra/support:$PATH"
+fi
+
+if [ -d "/opt/riscv/bin" ];then
+	export PATH="/opt/riscv/bin:$PATH"
 fi
 
 
