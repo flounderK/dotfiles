@@ -192,6 +192,18 @@ function cfindgp () {
 }
 
 
+function findclassdefs () {
+	# need to specify the full class name
+	PATTERN='class\s+(\S+\s+)*'
+	PATTERN+="${@}"
+	PATTERN+='(\s*|[:{])'
+
+	find . -iname '*.c' -o -iname '*.h' -o -iname '*.cc' -o -iname '*.hh' -o -iname '*.cpp' -o -iname '*.hpp' -o -iname '*.cxx' \
+		-o -iname '*.c.inc' | xargs -d '\n' grep -P ${PATTERN}
+
+}
+
+
 function tagsum () {
 	# dump out a summary of what is in the file using ctags
 	if [ $# -lt 1 ]; then
@@ -200,7 +212,14 @@ function tagsum () {
 	else
 		POSITIONAL=("${@}")
 	fi
-	ctags -x ${POSITIONAL[@]} | tr -s ' ' | cut -d ' ' -f2,5- | sort -r
+
+	CTAGS_OUTPUT=$(ctags --c++-kinds=+p --fields=+iaS --extras=+q -x ${POSITIONAL[@]})
+	LAST_RETURNCODE=$?
+	if [ $LAST_RETURNCODE -ne 0 ]; then
+		CTAGS_OUTPUT=$(ctags -x ${POSITIONAL[@]})
+	fi
+
+	echo "$CTAGS_OUTPUT" | tr -s ' ' | cut -d ' ' -f2,5- | sort -r
 }
 
 function gen_vmlinux_h () {
