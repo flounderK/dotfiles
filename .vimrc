@@ -319,6 +319,14 @@ augroup vimrc-cmake
 	autocmd filetype cmake set expandtab
 augroup END
 
+augroup vimrc-javascript
+	autocmd!
+	autocmd BufNewFile,BufRead javascriptLists.txt setlocal filetype=javascript
+	autocmd filetype javascript set autoindent
+	autocmd filetype javascript set shiftwidth=4
+	autocmd filetype javascript set softtabstop=4
+	autocmd filetype javascript set expandtab
+augroup END
 
 augroup CBuild
 	"autocmd filetype c,cpp call CopyAndSetCIndentStyle()
