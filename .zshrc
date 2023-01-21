@@ -196,7 +196,7 @@ function findclassdefs () {
 	# need to specify the full class name
 	PATTERN='class\s+(\S+\s+)*'
 	PATTERN+="${@}"
-	PATTERN+='(\s*|[:{])'
+	PATTERN+='(\s*|[:{]|\n|\r|$)'
 
 	find . -iname '*.c' -o -iname '*.h' -o -iname '*.cc' -o -iname '*.hh' -o -iname '*.cpp' -o -iname '*.hpp' -o -iname '*.cxx' \
 		-o -iname '*.c.inc' | xargs -d '\n' grep -P ${PATTERN}
