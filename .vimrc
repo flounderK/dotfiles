@@ -94,8 +94,8 @@ set splitbelow
 set splitright
 set autoread  " Auto reload file after external command
 set hlsearch
-set ignorecase	   " Ignore case when pattern matching
-set smartcase      " Ignores ignorecase if pattern contains uppercase
+" set ignorecase	   " Ignore case when pattern matching
+" set smartcase      " Ignores ignorecase if pattern contains uppercase
 set showmatch      " flashes matching brackets
 
 
@@ -337,6 +337,33 @@ augroup CBuild
 	autocmd filetype c,cpp nnoremap <buffer> <F4> :AsyncRun make clean && make -j8<cr>
 	autocmd filetype c,cpp let &path.="src/include,/usr/include/AL,/usr/include/linux" . ',/lib/modules/' . system('/usr/bin/uname -r') . '/build/include'
 augroup END
+
+
+" modified from https://github.com/ravishi/vim-gnu-c
+function! TrySetGnuCOptions()
+    if searchpos('\n  {\n    ') != [0, 0]
+		" START GNU C options
+		" Set various width parameters
+		setlocal sw=2 ts=8 tw=78
+
+		setlocal cinoptions=>2s,e-s,n-s,f0,{s,^-s,:s,=s,g0,+.5s,p2s,t0,(0 cindent
+
+		" Set 'formatoptions' to break comment lines but not other lines,
+		" and insert the comment leader when hitting <CR> or using "o".
+		setlocal fo-=t fo+=croql
+
+		" Set 'comments' to format dashed lists in comments.
+		setlocal comments=sO:*\ -,mO:\ \ \ ,exO:*/,s1:/*,mb:\ ,ex:*/
+
+		set cpo-=C
+		" END GNU C options
+		" set filetype=gnuc
+    endif
+endfunction
+
+au FileType *   if &ft == 'c' | call TrySetGnuCOptions() | endif
+
+
 " markdown
 autocmd BufNewFile,BufRead *.md
 	\ set fileencoding=utf-8 |
