@@ -8,7 +8,7 @@ Also my script for quickly updating/installing my dotfiles on many machines.
 ## Ubuntu
 ```bash
 sudo apt update
-sudo apt install git vim fonts-powerline exuberant-ctags zsh gdb -y
+sudo apt install git vim fonts-powerline exuberant-ctags zsh gdb curl openssh-server -y
 ```
 
 ## Usage:
