@@ -4,6 +4,9 @@ import logging
 import string
 import os
 import re
+import struct
+
+
 
 log = logging.getLogger(__file__)
 if not log.hasHandlers():
@@ -190,6 +193,23 @@ def add_symbol_files_for_core(searchdir=None):
         gdb.execute(cmd)
 
 
+def identify_anonymous_regions_in_core():
+    maps_entries = parse_proc_maps()
+    maps_entries_start_addr_pat = "(%s)->" % "|".join([e['Start_Addr'] for e in maps_entries])
+    maint_sect = execute_output("maintenance info sections")
+    maint_sect_lines = maint_sect.splitlines()
+
+    loaded_or_allocd_lines = [i for i in maint_sect_lines if re.search("(ALLOC|LOAD)", i) is not None]
+    anonymous_entry_lines = [i for i in loaded_or_allocd_lines if re.search(maps_entries_start_addr_pat, i) is None]
+    anonymous_entries = []
+    for line in anonymous_entry_lines:
+        m = re.search("(?P<Start_Addr>0x[a-f0-9]+)->(?P<End_Addr>0x[a-f0-9]+)", line, re.I)
+        if m is None:
+            continue
+        anonymous_entries.append(m.groupdict())
+    return anonymous_entries
+
+
 class FuncArgsBreakPoint(gdb.Command):
     USAGE = "Usage: funcargsbp <breakpoint_name> <breakpoint addr> [[fmt-string]...[args]]"
 
@@ -300,3 +320,141 @@ class HexdumpBuf(gdb.Command):
 
 
 HexdumpBuf()
+
+
+class GDBPointerUtils:
+    def __init__(self, endian="little", pointersize=4):
+        self.ptr_size = pointersize
+        self.page_size = 0x1000
+        self.ptr_pack_sym = ""
+        self.max_addr = 0
+        if self.ptr_size == 4:
+            self.max_addr = 0x80000000
+            self.ptr_pack_sym = "I"
+        elif self.ptr_size == 8:
+            self.max_addr = 0x8000000000000000
+            self.ptr_pack_sym = "Q"
+
+        self.endian = ""
+        self.pack_endian = ""
+        if endain.lower() in ["big", "be", "msb"]:
+            self.pack_endian = ">"
+            self.endian = "big"
+        elif endian.lower() in ["little", "le", "lsb"]:
+            self.pack_endian = "<"
+            self.endian = "little"
+        else:
+            raise Exception("unknown endian")
+        self.ptr_pack_code = self.pack_endian + self.ptr_pack_sym
+
+    def generate_address_range_pattern(self, minimum_addr, maximum_addr):
+        """
+        Generate a regular expression pattern that can be used to match
+        the bytes for an address between minimum_addr and maximum_addr
+        (inclusive). This works best for small ranges, and will break
+        somewhat if there are non-contiguous memory blocks, but it works
+        well enough for most things
+        """
+        diff = maximum_addr - minimum_addr
+        val = diff
+        # calculate the changed number of bytes between the minimum_addr and the maximum_addr
+        byte_count = 0
+        while val > 0:
+            val = val >> 8
+            byte_count += 1
+
+        # generate a sufficient wildcard character classes for all of the bytes that could fully change
+        wildcard_bytes = byte_count - 1
+        wildcard_pattern = b"[\x00-\xff]"
+        boundary_byte_upper = (maximum_addr >> (wildcard_bytes*8)) & 0xff
+        boundary_byte_lower = (minimum_addr >> (wildcard_bytes*8)) & 0xff
+        # create a character class that will match the largest changing byte
+        boundary_byte_pattern = b"[\\%s-\\%s]" % (bytearray([boundary_byte_lower]),
+                                                  bytearray([boundary_byte_upper]))
+
+        address_pattern = b''
+        single_address_pattern = b''
+        if self.endian != "big":
+            packed_addr = struct.pack(self.ptr_pack_sym, minimum_addr)
+            single_address_pattern = b''.join([wildcard_pattern*wildcard_bytes,
+                                               boundary_byte_pattern,
+                                               packed_addr[byte_count:]])
+        else:
+            packed_addr = struct.pack(self.ptr_pack_sym, minimum_addr)
+            single_address_pattern = b''.join([packed_addr[:byte_count],
+                                               boundary_byte_pattern,
+                                               wildcard_pattern*wildcard_bytes])
+
+        # empty_addr = struct.pack(self.ptr_pack_sym, 0)
+
+        address_pattern = b"(%s)" % single_address_pattern
+        return address_pattern
+
+    def generate_address_range_rexp(self, minimum_addr, maximum_addr):
+        """
+        Generate a regular expression that can match on any value between
+        the provided minimum addr and maximum addr
+        """
+        address_pattern = self.generate_address_range_pattern(minimum_addr, maximum_addr)
+        address_rexp = re.compile(address_pattern, re.DOTALL | re.MULTILINE)
+        return address_rexp
+
+    def ptr_ints_from_bytearray(self, bytarr):
+        """
+        Returns a tuple of poitner-sized ints unpacked from the provided
+        bytearray
+        """
+        bytarr = bytearray(bytarr)
+        # truncate in case the bytarray isn't aligned to ptr size
+        fit_len = len(bytarr) // self.ptr_size
+        pack_code = "%s%d%s" % (self.pack_endian, fit_len, self.ptr_pack_sym)
+        return struct.unpack_from(pack_code, bytarr)
+
+    def search_for_pointer(self, pointer):
+        """
+        Find all locations where a specific pointer is embedded in memory
+        """
+
+        pointer_bytes = struct.pack(self.ptr_pack_code, pointer)
+        pointer_pattern = re.escape(pointer_bytes)
+        address_rexp = re.compile(pointer_pattern, re.DOTALL | re.MULTILINE)
+        match_addrs, _ = self.search_memory_for_rexp(address_rexp)
+        return match_addrs
+
+    def search_memory_for_rexp(self, rexp, save_match_objects=True):
+        """
+        Given a regular expression, search through all of the program's
+        memory blocks for it and return a list of addresses where it was found,
+        as well as a list of the match objects. Set `save_match_objects` to
+        False if you are searching for exceptionally large objects and
+        don't want to keep the matches around
+        """
+        inf = gdb.selected_inferior()
+
+        all_match_addrs = []
+        all_match_objects = []
+        for region_start in range(0, self.max_addr, self.page_size):
+            try:
+                search_bytes = inf.read_memory(region_start, self.page_size)
+            except:
+                continue
+            iter_gen = re.finditer(rexp, search_bytes)
+            match_count = 0
+            # hacky loop over matches so that the recursion limit can be caught
+            while True:
+                try:
+                    m = next(iter_gen)
+                except StopIteration:
+                    # this is where the loop is normally supposed to end
+                    break
+                except RuntimeError:
+                    # this means that recursion went too deep
+                    print("match hit recursion limit on match %d" % match_count)
+                    break
+                match_count += 1
+                location_addr = region_start + m.start()
+                all_match_addrs.append(location_addr)
+                if save_match_objects:
+                    all_match_objects.append(m)
+        return all_match_addrs, all_match_objects
+
