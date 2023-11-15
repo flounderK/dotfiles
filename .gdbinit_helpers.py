@@ -153,7 +153,7 @@ def parse_proc_maps():
 
 
 def get_file_paths(directory):
-    for dirpath, dirnames, filenames in os.walk(searchdir):
+    for dirpath, dirnames, filenames in os.walk(directory):
         for filename in filenames:
             yield os.path.join(dirpath, filename)
 
