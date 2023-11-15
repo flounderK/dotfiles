@@ -206,7 +206,11 @@ def identify_anonymous_regions_in_core():
         m = re.search("(?P<Start_Addr>0x[a-f0-9]+)->(?P<End_Addr>0x[a-f0-9]+)", line, re.I)
         if m is None:
             continue
-        anonymous_entries.append(m.groupdict())
+        gd = m.groupdict()
+        gd['Size'] = "%#x" % (int(gd['End_Addr'], 16) - int(gd['Start_Addr'], 16))
+        gd['Offset'] = '0x0'
+        gd['objfile'] = ''
+        anonymous_entries.append(gd)
     return anonymous_entries
 
 
@@ -458,3 +462,37 @@ class GDBPointerUtils:
                     all_match_objects.append(m)
         return all_match_addrs, all_match_objects
 
+
+class MemoryRegion:
+    def __init__(self):
+        self.start_addr = 0
+        self.end_addr = 0
+        self.size = 0
+        self.offset = 0
+        self.perms = ""
+        self.objfile = ""
+
+    @staticmethod
+    def from_dict(in_dict):
+        reg = MemoryRegion()
+
+        hexinttype = functools.partial(int, base=16)
+        dict_to_field_mappings = {
+            "Start_Addr": ("start_addr", hexinttype),
+            "End_Addr": ("end_addr", hexinttype),
+            "Size": ("size", hexinttype),
+            "Offset": ("offset", hexinttype),
+            "Perms": ("perms", str),
+            "objfile": ("objfile", str),
+        }
+        for k in in_dict.keys():
+            field_name, field_type = dict_to_field_mappings.get(k, (k, str))
+            setattr(reg, field_name, field_type(in_dict[k]))
+        return reg
+
+    def contains(self, address):
+        return address >= self.start_addr and address <= self.end_addr
+
+    def __repr__(self):
+        return "%#x %#x %#x %s" % (self.start_addr, self.end_addr,
+                                   self.size, self.objfile)
