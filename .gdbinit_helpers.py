@@ -351,6 +351,59 @@ class GDBPointerUtils:
             raise Exception("unknown endian")
         self.ptr_pack_code = self.pack_endian + self.ptr_pack_sym
 
+    def gen_char_class_range(self, lower_bound, upper_bound):
+
+        # can't be used to specify a range in a regex pattern either
+        # now or in the near future
+        invalid_range_spec = [ord(b'-'), ord(b'\\'), ord(b']')]
+
+        # code for finding new invalid range specifiers as python adds them
+        # invalid_range_spec = []
+        # for i in range(1, 256):
+        #     byt = bytearray([i])
+        #     try:
+        #         rexp = re.compile(b'([\x00-%s])' % byt)
+        #         if re.search(rexp, byt) is None:
+        #             raise Exception("invalid")
+        #     except:
+        #         invalid_range_spec.append(byt)
+        # print(invalid_range_spec)
+
+        end_bytes = []
+        ranges = []
+        # sanitize the range specifiers to remove invalid chars
+        if lower_bound in invalid_range_spec:
+            end_bytes.append(bytearray([lower_bound]))
+            lower_bound += 1
+
+        if upper_bound in invalid_range_spec:
+            end_bytes.append(bytearray([upper_bound]))
+            upper_bound -= 1
+
+        # pattern will end up like b'[\xfd-\x00]', split into two
+        # different ranges instead
+        if lower_bound > upper_bound:
+            new_upper_ranges, new_upper_end_bytes = self.gen_char_class_range(0, upper_bound)
+            ranges.extend(new_upper_ranges)
+            end_bytes.extend(new_upper_end_bytes)
+            # adding this here might not be necessary, but since it is already
+            # sanitized it shouldn't hurt
+            end_bytes.append(bytearray([upper_bound]))
+            upper_bound = 0xff
+
+        # if the two are the same there is no need to make an additional range,
+        if lower_bound == upper_bound:
+            end_bytes.append(bytearray([lower_bound]))
+            return ranges, end_bytes
+
+        # don't actually add end bytes until the end, because some special
+        # characters MUST be at the end, and this could just be a
+        # recursive call
+        new_range = b"%s-%s" % (bytearray([lower_bound]),
+                                bytearray([upper_bound]))
+        ranges.append(new_range)
+        return ranges, end_bytes
+
     def generate_address_range_pattern(self, minimum_addr, maximum_addr):
         """
         Generate a regular expression pattern that can be used to match
@@ -372,9 +425,19 @@ class GDBPointerUtils:
         wildcard_pattern = b"[\x00-\xff]"
         boundary_byte_upper = (maximum_addr >> (wildcard_bytes*8)) & 0xff
         boundary_byte_lower = (minimum_addr >> (wildcard_bytes*8)) & 0xff
+        # arbitrarily escaping ascii bytes is not valid in newer versions of python
+        # boundary_byte_pattern = b"[\\%s-\\%s]" % (bytearray([boundary_byte_lower]),
+        #                                           bytearray([boundary_byte_upper]))
+        ranges, end_bytes = self.gen_char_class_range(boundary_byte_lower,
+                                                      boundary_byte_upper)
+        # TODO: actually dedup end bytes
+        # move the b'-' to the end if present
+        end_bytes.sort(key=lambda a: a == b'-')
+        # escape end bytes properly
+        escaped_end_bytes = b''.join([bytearray([ord(b'\\')]) + i for i in end_bytes])
+        ranges_str = b''.join(ranges)
         # create a character class that will match the largest changing byte
-        boundary_byte_pattern = b"[\\%s-\\%s]" % (bytearray([boundary_byte_lower]),
-                                                  bytearray([boundary_byte_upper]))
+        boundary_byte_pattern = b'[%s%s]' % (range_str, escaped_end_bytes)
 
         address_pattern = b''
         single_address_pattern = b''
