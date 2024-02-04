@@ -329,7 +329,7 @@ HexdumpBuf()
 
 
 class GDBPointerUtils:
-    def __init__(self, endian="little", pointersize=4):
+    def __init__(self, pointersize=4, endian="little"):
         self.ptr_size = pointersize
         self.page_size = 0x1000
         self.ptr_pack_sym = ""
@@ -343,7 +343,7 @@ class GDBPointerUtils:
 
         self.endian = ""
         self.pack_endian = ""
-        if endain.lower() in ["big", "be", "msb"]:
+        if endian.lower() in ["big", "be", "msb"]:
             self.pack_endian = ">"
             self.endian = "big"
         elif endian.lower() in ["little", "le", "lsb"]:
@@ -375,8 +375,8 @@ class GDBPointerUtils:
         boundary_byte_upper = (maximum_addr >> (wildcard_bytes*8)) & 0xff
         boundary_byte_lower = (minimum_addr >> (wildcard_bytes*8)) & 0xff
         # create a character class that will match the largest changing byte
-        boundary_byte_pattern = b"[\\%s-\\%s]" % (bytearray([boundary_byte_lower]),
-                                                  bytearray([boundary_byte_upper]))
+        boundary_byte_pattern = b"[%s-%s]" % (re.escape(bytearray([boundary_byte_lower])),
+                                              re.escape(bytearray([boundary_byte_upper])))
 
         address_pattern = b''
         single_address_pattern = b''
@@ -463,6 +463,17 @@ class GDBPointerUtils:
                 if save_match_objects:
                     all_match_objects.append(m)
         return all_match_addrs, all_match_objects
+
+    def generate_address_pattern(self, address):
+        packed_addr = struct.pack(self.ptr_pack_code, address)
+        escaped_pattern = re.escape(packed_addr)
+        return escaped_pattern
+
+    def generate_address_rexp(self, address):
+        address_pattern = self.generate_address_pattern(address)
+        address_rexp = re.compile(address_pattern, re.DOTALL | re.MULTILINE)
+        return address_rexp
+
 
 
 class MemoryRegion:
