@@ -203,6 +203,43 @@ function findclassdefs () {
 
 }
 
+function cstruct () {
+	if [ $# -lt 1 ]; then
+		echo "must provide a struct to search for"
+		return
+	fi
+	cfind . | xargs -d '\n' grep -P "struct\s+${@}\s*{"
+}
+
+function cdefine () {
+	if [ $# -lt 1 ]; then
+		echo "must provide a macro to search for"
+		return
+	fi
+	cfind . | xargs -d '\n' grep -P "define\s+${@}"
+}
+
+function ctypedef () {
+	if [ $# -lt 1 ]; then
+		echo "must provide a type to search for"
+		return
+	fi
+	cfind . | xargs -d '\n' grep -P "${@};"
+}
+
+
+function javafind () {
+	# default to current directory, but support more
+	if [ $# -lt 1 ]; then
+		POSITIONAL=(".")
+	else
+		POSITIONAL=("${@}")
+	fi
+
+	find ${POSITIONAL[@]} -type f -iname '*.java'
+
+}
+
 
 function tagsum () {
 	# dump out a summary of what is in the file using ctags
@@ -229,6 +266,11 @@ function gen_vmlinux_h () {
 function qdisasm () {
 	r2 -q $1 <<<'pdi
     qq'
+}
+
+function find_urls () {
+
+	find . -type f | xargs -d '\n' grep -Paio '://[a-z0-9./&+?#=%_-]+'
 }
 
 if [ -d "/opt/ghidra/support" ];then
