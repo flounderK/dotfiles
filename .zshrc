@@ -149,7 +149,11 @@ function getzshfunctionnames () {
 }
 
 function gencppctags () {
-	ctags -R --c++-kinds=+p --fields=+iaS --extras=+q .
+	# ctags has different versions of the same param
+	A=$(ctags -R --c++-kinds=+p --fields=+iaS --extras=+q .)
+	if [ $? != 0 ]; then
+		ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .
+	fi
 }
 
 function build_cscope_db () {
@@ -173,7 +177,7 @@ function cfind () {
 	fi
 
 	find ${POSITIONAL[@]} -iname '*.c' -o -iname '*.h' -o -iname '*.cc' -o -iname '*.hh' -o -iname '*.cpp' -o -iname '*.hpp' -o -iname '*.cxx' \
-		-o -iname '*.c.inc'
+		-o -iname '*.c.inc' -o -iname '*.s'
 
 }
 
