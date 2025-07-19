@@ -116,28 +116,6 @@ function findfileextensions () {
 	find ${POSITIONAL[@]} -name '*.*' | grep --color=never -Po '(?<=\.)[^/.]+$' | sort | uniq
 }
 
-# this doesnt work on zsh
-# function todo () {
-#     if [[ ! -f $HOME/.todo ]]; then
-#         touch "$HOME/.todo"
-#     fi
-#
-#     if ! (($#)); then
-#         cat "$HOME/.todo"
-#     elif [[ "$1" == "-l" ]]; then
-#         nl -b a "$HOME/.todo"
-#     elif [[ "$1" == "-c" ]]; then
-#         > $HOME/.todo
-#     elif [[ "$1" == "-r" ]]; then
-#         nl -b a "$HOME/.todo"
-#         eval printf %.0s- '{1..'"${COLUMNS:-$(tput cols)}"\}
-#         read "number?Type a number to remove: "
-#         sed -i ${number}d $HOME/.todo "$HOME/.todo"
-#     else
-#         printf "%s\n" "$*" >> "$HOME/.todo"
-#     fi
-# }
-
 function getmaketargets () {
 	make -q -p $@ 2>/dev/null | grep -Pv '^#' | grep --color=never -Po '^[^:\t]+:'
 	# make -q -p -f /dev/null 2>/dev/null | awk -F':' '/^[.a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | sort | uniq
@@ -180,21 +158,6 @@ function cfind () {
 		-o -iname '*.c.inc' -o -iname '*.s'
 
 }
-
-function cfindgp () {
-	# default to current directory, but support more
-	# TODO: handle -- here so that both commands can be provided input
-	# if [ $# -lt 1 ]; then
-	# 	POSITIONAL=(".")
-	# else
-	# 	POSITIONAL=("${@}")
-	# fi
-
-	find . -iname '*.c' -o -iname '*.h' -o -iname '*.cc' -o -iname '*.hh' -o -iname '*.cpp' -o -iname '*.hpp' -o -iname '*.cxx' \
-		-o -iname '*.c.inc' | xargs -d '\n' grep -P ${@}
-
-}
-
 
 function findclassdefs () {
 	# need to specify the full class name
@@ -244,6 +207,18 @@ function javafind () {
 
 }
 
+function csfind () {
+	# default to current directory, but support more
+	if [ $# -lt 1 ]; then
+		POSITIONAL=(".")
+	else
+		POSITIONAL=("${@}")
+	fi
+
+	find ${POSITIONAL[@]} -type f -iname '*.cs'
+
+}
+
 
 function tagsum () {
 	# dump out a summary of what is in the file using ctags
@@ -265,11 +240,6 @@ function tagsum () {
 
 function gen_vmlinux_h () {
 	bpftool btf dump file /sys/kernel/btf/vmlinux format c
-}
-
-function qdisasm () {
-	r2 -q $1 <<<'pdi
-    qq'
 }
 
 function find_urls () {
